@@ -11,7 +11,7 @@ public class Salle {
 
     public Salle(){}
 
-    public Salle(String sigle, int capacite,int id_salle) {
+    public Salle(String sigle, int capacite, int id_salle) {
         this.sigle = sigle;
         this.capacite = capacite;
         this.id_salle=id_salle;
