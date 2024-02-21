@@ -8,8 +8,11 @@ import java.util.List;
  * @author Selena D'Urbano
  * @version 1.0
  */
-
 public class Classe {
+    /**
+     * compteur qui auto-incrémente l'identifiant
+     */
+    protected static int i = 1;
 
     /**
      * id unique de la classe
@@ -38,19 +41,16 @@ public class Classe {
     /**
      * liste de chaque enseignant et de ses heures avec cette classe
      */
-
     protected List<ListeEnseignantsHeures> listeEnsHrs = new ArrayList<>();
 
     /**
      * liste de chaque salle où la classe a cours avec les heures durant
      * lesquelles la salle est occupée par la classe
      */
-
     protected List<SalleHeures> listeSalleHeures = new ArrayList<>();
     /**
      * liste de chaque cours qu'a la classe et ses heures attribuées
      */
-
     protected List<CoursHeures> listeCoursHeures = new ArrayList<>();
 
     /**
@@ -60,15 +60,14 @@ public class Classe {
 
     /**
      * constructeur paramétré
-     * @param id_classe id unique de la classe
+     * @param id_classe id unique de la classe, affilié au i qui s'incrémente a chaque nouvelle classe
      * @param sigle sigle de la classe
      * @param annee année en cours
      * @param specialite specialité de la classe
      * @param nbreEleves nombre d'élèves de la classe/**
      */
-
     public Classe(int id_classe, String sigle, int annee, String specialite, int nbreEleves) {
-        this.id_classe = id_classe;
+        this.id_classe = i++;
         this.sigle = sigle;
         this.annee = annee;
         this.specialite = specialite;
@@ -102,7 +101,6 @@ public class Classe {
      * setter id_classe
      * @param id_classe nouvel identifiant de la classe
      */
-
     public void setId_classe(int id_classe) {
         this.id_classe = id_classe;
     }
@@ -111,7 +109,6 @@ public class Classe {
      * getter sigle
      * @return sigle actuel de la classe
      */
-
     public String getSigle() {
         return sigle;
     }
@@ -119,7 +116,6 @@ public class Classe {
      * setter sigle
      * @param sigle nouveau sigle
      */
-
     public void setSigle(String sigle) {
         this.sigle = sigle;
     }
@@ -135,7 +131,6 @@ public class Classe {
      * setter annee
      * @param annee nouvelle année
      */
-
     public void setAnnee(int annee) {
         this.annee = annee;
     }
@@ -151,7 +146,6 @@ public class Classe {
      * setter specialite
      * @param specialite nouvelle spécialité de la classe
      */
-
     public void setSpecialite(String specialite) {
         this.specialite = specialite;
     }
@@ -168,7 +162,6 @@ public class Classe {
      * setter nbreEleves
      * @param nbreEleves nouveau nombre d'élèves
      */
-
     public void setNbreEleves(int nbreEleves) {
         this.nbreEleves = nbreEleves;
     }
@@ -239,7 +232,6 @@ public class Classe {
     /**
      * affichage d'une liste qui comprend chaque salle et ses heures avec la classe
      */
-
     public void listeSalleetHeures(){
         for(Infos infos : infos){
             listeSalleHeures.add(new SalleHeures(infos.getSalle(), infos.getNbreHeures()));
@@ -252,7 +244,6 @@ public class Classe {
     /**
      * affichage d'une liste qui comprend chaque cours et ses heures avec la classe
      */
-
     public void listeCoursetHeures(){
         for(Infos infos : infos){
             listeCoursHeures.add(new CoursHeures(infos.getCours(), infos.getNbreHeures()));
@@ -289,12 +280,16 @@ public class Classe {
     public void addCours(int nbreHeures, Cours cours){ // heure et cours seulement
         int flag=0;
         for(Infos infos : infos){
-            if(infos.getCours().equals(cours)) {
+            if(infos.getCours().getCode().equals(cours.getCode())) {
                 flag = 1;
             }
         }
         if(flag==0){
             infos.add(new Infos(cours,nbreHeures));
+            System.out.println("Nouveau cours ajouté");
+        }
+        else{
+            System.out.println("Cours déjà existant");
         }
     }
 
@@ -354,8 +349,5 @@ public class Classe {
             }
         }
     }
-
-
-
 
 }

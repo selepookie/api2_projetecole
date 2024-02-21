@@ -9,6 +9,14 @@ import java.util.Date;
  */
 public class Enseignant {
     /**
+     * compteur qui auto-incrémente l'identifiant
+     */
+    protected static int i=1;
+    /**
+     * identifiant unique de l'enseignant
+     */
+    protected int id_enseignant;
+    /**
      * matricule de l'enseignant
      */
     protected String matricule;
@@ -42,6 +50,7 @@ public class Enseignant {
     public Enseignant(){}
     /**
      * constructeur paramétré
+     * @param id_enseignant identifiant unique de l'enseignant auto incrémenté par i
      * @param matricule matricule de l'enseignant
      * @param nom nom de l'enseignant
      * @param prenom prenom de l'enseignant
@@ -50,7 +59,8 @@ public class Enseignant {
      * @param salaireMensu salaire mensuel de l'enseignant
      * @param dateEngag date d'engagement de l'enseignant
      */
-    public Enseignant(String matricule, String nom, String prenom, String tel, int chargeSem, double salaireMensu, Date dateEngag) {
+    public Enseignant(int id_enseignant,String matricule, String nom, String prenom, String tel, int chargeSem, double salaireMensu, Date dateEngag) {
+        this.id_enseignant = i++;
         this.matricule = matricule;
         this.nom = nom;
         this.prenom = prenom;
@@ -59,6 +69,21 @@ public class Enseignant {
         this.salaireMensu = salaireMensu;
         this.dateEngag = dateEngag;
     }
+    /**
+     * getter id_enseignant
+     * @return identifiant unique de l'enseignant
+     */
+    public int getId_enseignant() {
+        return id_enseignant;
+    }
+    /**
+     * setter id_enseignant
+     * @param id_enseignant nouvel identifiant de l'enseignant
+     */
+    public void setId_enseignant(int id_enseignant) {
+        this.id_enseignant = id_enseignant;
+    }
+
     /**
      * getter matricule
      * @return matricule actuel

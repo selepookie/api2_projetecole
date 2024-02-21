@@ -7,6 +7,14 @@ package metier;
  */
 public class Cours {
     /**
+     * compteur qui auto-incrémente l'identifiant
+     */
+    protected static int i=1;
+    /**
+     * identifiant unique du cours
+     */
+    protected int id_cours;
+    /**
      * code du cours
      */
     protected String code;
@@ -17,30 +25,28 @@ public class Cours {
     /**
      * salle du cours
      */
-
     protected Salle salle;
     /**
      * constructeur par défaut
      */
-
     public Cours(){}
     /**
      * constructeur paramétré
      * @param code code du cours
      * @param intitule intitule du cours
      * @param salle salle du cours
+     * @param id_cours identifiant unique du cours auto-incrémenté par le i
      */
-
-    public Cours(String code, String intitule,Salle salle) {
+    public Cours(String code, String intitule,Salle salle,int id_cours) {
         this.code = code;
         this.intitule = intitule;
         this.salle=salle;
+        this.id_cours=i++;
     }
     /**
      * getter code
      * @return code actuel du cours
      */
-
     public String getCode() {
         return code;
     }
@@ -48,7 +54,6 @@ public class Cours {
      * setter du cours
      * @param code nouveau code du cours
      */
-
     public void setCode(String code) {
         this.code = code;
     }
@@ -56,7 +61,6 @@ public class Cours {
      * getter intitule
      * @return intitule actuel du cours
      */
-
     public String getIntitule() {
         return intitule;
     }
@@ -64,7 +68,6 @@ public class Cours {
      * setter intitule
      * @param intitule nouvel intitule du cours
      */
-
     public void setIntitule(String intitule) {
         this.intitule = intitule;
     }
@@ -72,7 +75,6 @@ public class Cours {
      * getter salle
      * @return salle actuelle
      */
-
     public Salle getSalle() {
         return salle;
     }
@@ -80,8 +82,21 @@ public class Cours {
      * setter salle
      * @param salle nouvelle salle du cours
      */
-
     public void setSalle(Salle salle) {
         this.salle = salle;
+    }
+    /**
+     * getter id_cours
+     * @return id actuel du cours
+     */
+    public int getId_cours() {
+        return id_cours;
+    }
+    /**
+     * setter id_cours
+     * @param id_cours nouvel id du cours
+     */
+    public void setId_cours(int id_cours) {
+        this.id_cours = id_cours;
     }
 }

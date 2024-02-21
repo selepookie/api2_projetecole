@@ -1,7 +1,7 @@
 package metier;
 
 /**
- * classe métier de gestion pour un cours et ses heures
+ * classe métier de gestion des cours et de leurs heures
  * @author Selena D'Urbano
  * @version 1.0
  */
@@ -25,7 +25,6 @@ public class CoursHeures {
     public Cours getCours() {
         return cours;
     }
-
     /**
      * setter cours
      * @param cours nouveau cours
