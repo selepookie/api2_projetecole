@@ -207,50 +207,48 @@ public class Classe {
 
     /**
      * calcul du nombre total des heures de la classe
+     * @return nombre total des heures de la classe
      */
-    public void nbreHeuresTot(){
+    public int nbreHeuresTot(){
         int total_heures=0;
         for(Infos infos : infos){
             total_heures+=infos.getNbreHeures();
         }
-        System.out.println("Total des heures de la classe "+sigle+" : "+total_heures);
+        return total_heures;
     }
 
     /**
-     * affichage d'une liste qui comprend chaque enseignant et ses heures avec la classe
+     * liste qui comprend chaque enseignant et ses heures avec la classe
+     * @return liste des enseignants et de leurs heures
      */
-    public void listeEnseignantsEtHeures(){
+    public List<ListeEnseignantsHeures> listeEnseignantsEtHeures(){
         for(Infos infos : infos){
             
             listeEnsHrs.add(new ListeEnseignantsHeures(infos.getEnseignant(), infos.getNbreHeures()));
         }
-        for(int i=0;i<listeEnsHrs.size();i++){
-            System.out.println(listeEnsHrs.get(i));
-        }
+        return listeEnsHrs;
     }
 
     /**
-     * affichage d'une liste qui comprend chaque salle et ses heures avec la classe
+     * liste qui comprend chaque salle et ses heures avec la classe
+     * @return liste des salles et leurs heures avec la classe
      */
-    public void listeSalleetHeures(){
+    public List<SalleHeures> listeSalleetHeures(){
         for(Infos infos : infos){
             listeSalleHeures.add(new SalleHeures(infos.getSalle(), infos.getNbreHeures()));
         }
-        for(int i=0;i<listeSalleHeures.size();i++){
-            System.out.println(listeSalleHeures.get(i));
-        }
+        return listeSalleHeures;
     }
 
     /**
-     * affichage d'une liste qui comprend chaque cours et ses heures avec la classe
+     * liste qui comprend chaque cours et ses heures avec la classe
+     * @return liste des cours et leurs heures avec la classe
      */
-    public void listeCoursetHeures(){
+    public List<CoursHeures> listeCoursetHeures(){
         for(Infos infos : infos){
             listeCoursHeures.add(new CoursHeures(infos.getCours(), infos.getNbreHeures()));
         }
-        for(int i=0;i<listeCoursHeures.size();i++){
-            System.out.println(listeCoursHeures.get(i));
-        }
+        return listeCoursHeures;
     }
 
     /**
@@ -262,11 +260,9 @@ public class Classe {
         boolean ok;
         if(getNbreEleves()>=salle.capacite){
             ok=true;
-            System.out.println("La salle est ok");
         }
         else{
             ok=false;
-            System.out.println("La salle n'est pas ok");
         }
 
         return ok;
@@ -278,13 +274,13 @@ public class Classe {
      * @param cours cours que l'on veut ajouter
      */
     public void addCours(int nbreHeures, Cours cours){ // heure et cours seulement
-        int flag=0;
+        boolean ok=false;
         for(Infos infos : infos){
             if(infos.getCours().getCode().equals(cours.getCode())) {
-                flag = 1;
+                ok=true;
             }
         }
-        if(flag==0){
+        if(!ok){
             infos.add(new Infos(cours,nbreHeures));
             System.out.println("Nouveau cours ajouté");
         }
@@ -341,13 +337,7 @@ public class Classe {
      * @param cours cours à supprimer
      */
     public void suppCours(Infos cours){
-        int i=0;
-        for(Infos info : infos){
-            i++;
-            if(infos.get(i).getCours().equals(cours)){
-                infos.remove(cours);
-            }
-        }
+        infos.remove(cours);
     }
 
 }

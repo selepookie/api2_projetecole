@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class ListeEnseignantsHeures {
     /**
-     * enseignant de la liste
+     * enseignant
      */
         private Enseignant enseignant;
     /**
