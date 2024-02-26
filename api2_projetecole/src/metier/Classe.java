@@ -75,22 +75,6 @@ public class Classe {
     }
 
     /**
-     * getter ListeEnseignantsHeures
-     * @return la liste complète des enseignants + heures qu'ils ont avec cette classe
-     */
-    public List<ListeEnseignantsHeures> getListeEnsHrs() {
-        return listeEnsHrs;
-    }
-
-    /**
-     * setter ListeEnseignantsHeures
-     * @param listeEnsHrs nouvelle liste enseignants et heures
-     */
-    public void setListeEnsHrs(List<ListeEnseignantsHeures> listeEnsHrs) {
-        this.listeEnsHrs = listeEnsHrs;
-    }
-
-    /**
      * getter id_classe
      * @return identifiant de la classe
      */
@@ -222,8 +206,8 @@ public class Classe {
      * @return liste des enseignants et de leurs heures
      */
     public List<ListeEnseignantsHeures> listeEnseignantsEtHeures(){
+        listeEnsHrs.clear();
         for(Infos infos : infos){
-            
             listeEnsHrs.add(new ListeEnseignantsHeures(infos.getEnseignant(), infos.getNbreHeures()));
         }
         return listeEnsHrs;
@@ -234,6 +218,7 @@ public class Classe {
      * @return liste des salles et leurs heures avec la classe
      */
     public List<SalleHeures> listeSalleetHeures(){
+        listeSalleHeures.clear();
         for(Infos infos : infos){
             listeSalleHeures.add(new SalleHeures(infos.getSalle(), infos.getNbreHeures()));
         }
@@ -245,6 +230,7 @@ public class Classe {
      * @return liste des cours et leurs heures avec la classe
      */
     public List<CoursHeures> listeCoursetHeures(){
+        listeCoursHeures.clear();
         for(Infos infos : infos){
             listeCoursHeures.add(new CoursHeures(infos.getCours(), infos.getNbreHeures()));
         }
