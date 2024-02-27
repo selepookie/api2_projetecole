@@ -38,20 +38,6 @@ public class Classe {
      * liste d'infos relatives à la classe
      */
     protected List<Infos> infos = new ArrayList<>();
-    /**
-     * liste de chaque enseignant et de ses heures avec cette classe
-     */
-    protected List<ListeEnseignantsHeures> listeEnsHrs = new ArrayList<>();
-
-    /**
-     * liste de chaque salle où la classe a cours avec les heures durant
-     * lesquelles la salle est occupée par la classe
-     */
-    protected List<SalleHeures> listeSalleHeures = new ArrayList<>();
-    /**
-     * liste de chaque cours qu'a la classe et ses heures attribuées
-     */
-    protected List<CoursHeures> listeCoursHeures = new ArrayList<>();
 
     /**
      * constructeur par défaut
@@ -180,12 +166,8 @@ public class Classe {
                 ", specialite='" + specialite + '\'' +
                 ", nbreEleves=" + nbreEleves +
                 ", infos=" + infos +
-                ", listeEnsHrs=" + listeEnsHrs +
-                ", listeSalleHeures=" + listeSalleHeures +
-                ", listeCoursHeures=" + listeCoursHeures +
                 '}';
     }
-
     // methodes
 
 
@@ -206,7 +188,7 @@ public class Classe {
      * @return liste des enseignants et de leurs heures
      */
     public List<ListeEnseignantsHeures> listeEnseignantsEtHeures(){
-        listeEnsHrs.clear();
+        List<ListeEnseignantsHeures> listeEnsHrs = new ArrayList<>();
         for(Infos infos : infos){
             listeEnsHrs.add(new ListeEnseignantsHeures(infos.getEnseignant(), infos.getNbreHeures()));
         }
@@ -218,7 +200,7 @@ public class Classe {
      * @return liste des salles et leurs heures avec la classe
      */
     public List<SalleHeures> listeSalleetHeures(){
-        listeSalleHeures.clear();
+        List<SalleHeures> listeSalleHeures = new ArrayList<>();
         for(Infos infos : infos){
             listeSalleHeures.add(new SalleHeures(infos.getSalle(), infos.getNbreHeures()));
         }
@@ -230,7 +212,7 @@ public class Classe {
      * @return liste des cours et leurs heures avec la classe
      */
     public List<CoursHeures> listeCoursetHeures(){
-        listeCoursHeures.clear();
+        List<CoursHeures> listeCoursHeures = new ArrayList<>();
         for(Infos infos : infos){
             listeCoursHeures.add(new CoursHeures(infos.getCours(), infos.getNbreHeures()));
         }
