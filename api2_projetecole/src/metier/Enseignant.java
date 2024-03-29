@@ -50,7 +50,7 @@ public class Enseignant {
     public Enseignant(){}
     /**
      * constructeur paramétré
-     * @param id_enseignant identifiant unique de l'enseignant auto incrémenté par i
+     * @param id_enseignant identifiant unique de l'enseignant auto incrémenté par iUNIQ
      * @param matricule matricule de l'enseignant
      * @param nom nom de l'enseignant
      * @param prenom prenom de l'enseignant

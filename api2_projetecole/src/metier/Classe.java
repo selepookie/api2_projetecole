@@ -46,19 +46,34 @@ public class Classe {
 
     /**
      * constructeur paramétré
-     * @param id_classe id unique de la classe, affilié au i qui s'incrémente a chaque nouvelle classe
      * @param sigle sigle de la classe
      * @param annee année en cours
      * @param specialite specialité de la classe
      * @param nbreEleves nombre d'élèves de la classe/**
      */
-    public Classe(int id_classe, String sigle, int annee, String specialite, int nbreEleves) {
+    public Classe(String sigle, int annee, String specialite, int nbreEleves) {
         this.id_classe = i++;
         this.sigle = sigle;
         this.annee = annee;
         this.specialite = specialite;
         this.nbreEleves = nbreEleves;
     }
+    /**
+     * constructeur paramétré
+     * @param id_classe id unique de la classe, affilié au i qui s'incrémente a chaque nouvelle classe
+     * @param sigle sigle de la classe
+     * @param annee année en cours
+     * @param specialite specialité de la classe
+     * @param nbreEleves nombre d'élèves de la classe/**
+     */
+    public Classe(int id_classe,String sigle, int annee, String specialite, int nbreEleves) {
+        this.id_classe = id_classe;
+        this.sigle = sigle;
+        this.annee = annee;
+        this.specialite = specialite;
+        this.nbreEleves = nbreEleves;
+    }
+
 
     /**
      * getter id_classe
@@ -244,13 +259,13 @@ public class Classe {
     public void addCours(int nbreHeures, Cours cours){ // heure et cours seulement
         boolean ok=false;
         for(Infos infos : infos){
+            
             if(infos.getCours().getCode().equals(cours.getCode())) {
                 ok=true;
             }
         }
         if(!ok){
             infos.add(new Infos(cours,nbreHeures));
-            System.out.println("Nouveau cours ajouté");
         }
         else{
             System.out.println("Cours déjà existant");
