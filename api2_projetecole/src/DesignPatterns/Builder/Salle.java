@@ -1,4 +1,4 @@
-package metier;
+package DesignPatterns.Builder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,25 +28,17 @@ public class Salle {
      * liste des cours ayant lieu dans cette salle
      */
     protected List<Cours> cours = new ArrayList<>();
-    /**
-     * constructeur par défaut
-     */
-    public Salle(){}
-    /**
-     * constructeur paramétré
-     * @param sigle sigle
-     * @param capacite capacité de la salle
-     * @param id_salle identifiant unique de la salle auto-incrémenté par i
-     */
-    public Salle(String sigle, int capacite, int id_salle) {
-        this.sigle = sigle;
-        this.capacite = capacite;
-        this.id_salle=i++;
+
+    private Salle(SalleBuilder cb){
+        this.id_salle = cb.id_salle;
+        this.sigle = cb.sigle;
+        this.capacite=cb.capacite;
     }
     /**
      * getter sigle
      * @return sigle actuel de la salle
      */
+
     public String getSigle() {
         return sigle;
     }
@@ -111,4 +103,31 @@ public class Salle {
         }
         return listecours;
     }
+
+    public static class SalleBuilder{
+        protected int id_salle;
+        protected String sigle;
+        protected int capacite;
+
+
+        public SalleBuilder setId_salle(int id_salle){
+            this.id_salle=id_salle;
+            return this;
+        }
+        public SalleBuilder setSigle(String sigle){
+            this.sigle = sigle;
+            return this;
+        }
+        public SalleBuilder setCapacite(int capacite){
+            this.capacite=capacite;
+            return this;
+        }
+
+        public Salle build() throws Exception{
+            if(id_salle<=0 || sigle==null) throw new Exception("informations de construction incomplètes");
+            return new Salle(this);
+        }
+    }
+
+
 }
