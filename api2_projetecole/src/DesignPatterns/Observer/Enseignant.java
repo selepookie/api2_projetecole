@@ -7,7 +7,7 @@ import java.util.Date;
  * @author Selena D'Urbano
  * @version 1.0
  */
-public class Enseignant {
+public class Enseignant extends Observer {
     /**
      * compteur qui auto-incrémente l'identifiant
      */
@@ -182,5 +182,10 @@ public class Enseignant {
      */
     public void setDateEngag(Date dateEngag) {
         this.dateEngag = dateEngag;
+    }
+
+    @Override
+    public void update(String msg) {
+        System.out.println(prenom + nom + "a reçu le message : "+ msg);
     }
 }

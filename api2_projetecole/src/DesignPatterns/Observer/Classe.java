@@ -8,7 +8,7 @@ import java.util.List;
  * @author Selena D'Urbano
  * @version 1.0
  */
-public class Classe {
+public class Classe extends Subject{
     /**
      * compteur qui auto-incrémente l'identifiant
      */
@@ -148,7 +148,9 @@ public class Classe {
      * @param nbreEleves nouveau nombre d'élèves
      */
     public void setNbreEleves(int nbreEleves) {
+
         this.nbreEleves = nbreEleves;
+        notifyObservers();
     }
 
     /**
@@ -323,4 +325,8 @@ public class Classe {
         infos.remove(cours);
     }
 
+    @Override
+    public String getNotification() {
+        return "nouveau nombre d'élèves : "+nbreEleves;
+    }
 }
