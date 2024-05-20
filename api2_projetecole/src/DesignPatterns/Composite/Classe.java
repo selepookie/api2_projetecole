@@ -8,7 +8,7 @@ import java.util.List;
  * @author Selena D'Urbano
  * @version 1.0
  */
-public class Classe {
+public class Classe extends Element{
     /**
      * compteur qui auto-incrémente l'identifiant
      */
@@ -44,6 +44,11 @@ public class Classe {
      */
     public Classe(){}
 
+    @Override
+    public int nbEleves() {
+        return nbreEleves;
+    }
+
     /**
      * constructeur paramétré
      * @param sigle sigle de la classe
@@ -67,7 +72,7 @@ public class Classe {
      * @param nbreEleves nombre d'élèves de la classe/**
      */
     public Classe(int id_classe,String sigle, int annee, String specialite, int nbreEleves) {
-        this.id_classe = id_classe;
+        super(id_classe);
         this.sigle = sigle;
         this.annee = annee;
         this.specialite = specialite;
