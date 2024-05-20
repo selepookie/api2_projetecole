@@ -57,15 +57,22 @@ public class ModelClasseDB extends DAOClasse {
             System.out.println("id de la classe recherchée :  ");
             int idrech = sc.nextInt();
             String query = "delete from API_CLASSE where id_classe = ?";
+            boolean ok=false;
             try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
                 pstm.setInt(1,idrech);
                 int n = pstm.executeUpdate();
-                if(n!=0) System.out.println(n+ "ligne supprimée");
-                else System.out.println("record introuvable");
+                if(n!=0) {
+                    System.out.println(n+ "ligne supprimée");
+                    ok = true;
+                }
+                else {
+                    System.out.println("record introuvable");
+                }
 
             } catch (SQLException e) {
                 System.out.println("erreur sql :"+e);
             }
+            return ok;
     }
 
     @Override
@@ -91,27 +98,30 @@ public class ModelClasseDB extends DAOClasse {
 
     @Override
     public Classe readClasse(int idclasse) {
-        System.out.println("id de la classe recherchée ");
-        int idrech = sc.nextInt();
-        String query = "select * from API_CLASSE where id_classe = ?";
-        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
-            pstm.setInt(1,idrech);
+        Classe classe = null;  // Initialiser la variable classe
+        String query = "SELECT * FROM API_CLASSE WHERE id_classe = ?";
+
+        try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1, idclasse);  // Utiliser l'argument de la méthode
             ResultSet rs = pstm.executeQuery();
-            if(rs.next()){
+
+            if (rs.next()) {
                 String sigle = rs.getString(2);
                 int annee = rs.getInt(3);
                 String specialite = rs.getString(4);
                 int nbreEleves = rs.getInt(5);
-                Classe cl = new Classe(idrech,sigle,annee,specialite,nbreEleves);
-                System.out.println(cl);
-                return cl;
+                classe = new Classe(idclasse, sigle, annee, specialite, nbreEleves);
+                System.out.println(classe);
+            } else {
+                System.out.println("record introuvable");
             }
-            else System.out.println("record introuvable");
         } catch (SQLException e) {
-            System.out.println("erreur sql :"+e);
-            return null;
+            System.out.println("erreur sql :" + e);
         }
+
+        return classe;  // Retourner la variable classe
     }
+
 
     @Override
     public List<Classe> getClasses() {

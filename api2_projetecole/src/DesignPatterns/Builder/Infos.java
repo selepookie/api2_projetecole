@@ -38,25 +38,11 @@ public class Infos {
         return id_infos;
     }
     /**
-     * setter id_infos
-     * @param id_infos nouvel id des informations
-     */
-    public void setId_infos(int id_infos) {
-        this.id_infos = id_infos;
-    }
-    /**
      * getter nbreHeures
      * @return nombre d'heures actuels
      */
     public int getNbreHeures() {
         return nbreHeures;
-    }
-    /**
-     * setter nbreHeures
-     * @param nbreHeures nouveau nombre d'heures
-     */
-    public void setNbreHeures(int nbreHeures) {
-        this.nbreHeures = nbreHeures;
     }
     /**
      * getter cours
@@ -66,13 +52,6 @@ public class Infos {
         return cours;
     }
     /**
-     * setter cours
-     * @param cours nouveau cours
-     */
-    public void setCours(Cours cours) {
-        this.cours = cours;
-    }
-    /**
      * getter salle
      * @return salle actuelle
      */
@@ -80,25 +59,11 @@ public class Infos {
         return salle;
     }
     /**
-     * setter salle
-     * @param salle nouvelle salle
-     */
-    public void setSalle(Salle salle) {
-        this.salle = salle;
-    }
-    /**
      * getter enseignant
      * @return enseignant actuel
      */
     public Enseignant getEnseignant() {
         return enseignant;
-    }
-    /**
-     * setter enseignant
-     * @param enseignant nouvel enseignant
-     */
-    public void setEnseignant(Enseignant enseignant) {
-        this.enseignant = enseignant;
     }
 
     public static class InfosBuilder{

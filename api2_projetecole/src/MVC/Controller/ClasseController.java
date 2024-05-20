@@ -17,13 +17,13 @@ public class ClasseController {
     }
 
     public List<Classe> getAll(){
-        return model.getClasse();
+        return model.getClasses();
     }
-    public Classe addProduit(Classe classe) {
+    public Classe addClasse(Classe classe) {
         return  model.addClasse(classe);
     }
 
-    public boolean removeProduit(Classe cl) {
+    public boolean removeClasse(Classe cl) {
         return model.removeClasse(cl);
     }
 

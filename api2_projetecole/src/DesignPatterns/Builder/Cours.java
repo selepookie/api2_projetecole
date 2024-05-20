@@ -44,25 +44,11 @@ public class Cours {
         return code;
     }
     /**
-     * setter du cours
-     * @param code nouveau code du cours
-     */
-    public void setCode(String code) {
-        this.code = code;
-    }
-    /**
      * getter intitule
      * @return intitule actuel du cours
      */
     public String getIntitule() {
         return intitule;
-    }
-    /**
-     * setter intitule
-     * @param intitule nouvel intitule du cours
-     */
-    public void setIntitule(String intitule) {
-        this.intitule = intitule;
     }
     /**
      * getter salle
@@ -72,25 +58,11 @@ public class Cours {
         return salle;
     }
     /**
-     * setter salle
-     * @param salle nouvelle salle du cours
-     */
-    public void setSalle(Salle salle) {
-        this.salle = salle;
-    }
-    /**
      * getter id_cours
      * @return id actuel du cours
      */
     public int getId_cours() {
         return id_cours;
-    }
-    /**
-     * setter id_cours
-     * @param id_cours nouvel id du cours
-     */
-    public void setId_cours(int id_cours) {
-        this.id_cours = id_cours;
     }
 
     public static class CoursBuilder{

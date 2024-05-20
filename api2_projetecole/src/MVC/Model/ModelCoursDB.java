@@ -34,7 +34,7 @@ public class ModelCoursDB extends DAOCours{
             if(n==1){
                 pstm2.setString(1,cours.getCode());
                 pstm2.setString(2,cours.getIntitule());
-                pstm2.setString(3,cours.getSalle().getId_salle());
+                pstm2.setInt(3,cours.getSalle().getId_salle());
                 ResultSet rs= pstm2.executeQuery();
                 if(rs.next()){
                     int id_cours= rs.getInt(1);

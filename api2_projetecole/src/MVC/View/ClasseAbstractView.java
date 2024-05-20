@@ -14,7 +14,7 @@ public abstract class ClasseAbstractView implements Observer {
     }
 
     public abstract void affMsg(String msg);
-    public abstract Class selectionner();
+    public abstract Classe selectionner();
 
     public abstract void menu();
     public abstract void affList(List l);

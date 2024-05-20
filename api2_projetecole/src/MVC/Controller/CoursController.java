@@ -10,7 +10,7 @@ public class CoursController {
     private DAOCours model;
     private CoursAbstractView view;
 
-    public ClientController(DAOCours model, CoursAbstractView view) {
+    public CoursController(DAOCours model, CoursAbstractView view) {
         this.model = model;
         this.view = view;
         this.view.setController(this);

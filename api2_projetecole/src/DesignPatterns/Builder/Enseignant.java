@@ -62,13 +62,6 @@ public class Enseignant {
     public int getId_enseignant() {
         return id_enseignant;
     }
-    /**
-     * setter id_enseignant
-     * @param id_enseignant nouvel identifiant de l'enseignant
-     */
-    public void setId_enseignant(int id_enseignant) {
-        this.id_enseignant = id_enseignant;
-    }
 
     /**
      * getter matricule
@@ -78,39 +71,19 @@ public class Enseignant {
         return matricule;
     }
     /**
-     * setter matricule
-     * @param matricule nouveau matricule
-     */
-    public void setMatricule(String matricule) {
-        this.matricule = matricule;
-    }
-    /**
      * getter nom
      * @return nom actuel de l'enseignant
      */
     public String getNom() {
         return nom;
     }
-    /**
-     * setter nom
-     * @param nom nouveau nom
-     */
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
+
     /**
      * getter prénom
      * @return prénom actuel de l'enseignant
      */
     public String getPrenom() {
         return prenom;
-    }
-    /**
-     * setter prenom
-     * @param prenom nouveau prénom de l'enseignant
-     */
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
     }
     /**
      * getter tel
@@ -120,25 +93,11 @@ public class Enseignant {
         return tel;
     }
     /**
-     * setter tel
-     * @param tel nouveau téléphone de l'enseignant
-     */
-    public void setTel(String tel) {
-        this.tel = tel;
-    }
-    /**
      * getter chargeSem
      * @return chargesem actuelle
      */
     public int getChargeSem() {
         return chargeSem;
-    }
-    /**
-     * setter chargeSem
-     * @param chargeSem nouvelle chargeSem
-     */
-    public void setChargeSem(int chargeSem) {
-        this.chargeSem = chargeSem;
     }
     /**
      * getter salaireMensu
@@ -147,27 +106,13 @@ public class Enseignant {
     public double getSalaireMensu() {
         return salaireMensu;
     }
-    /**
-     * setter salaireMensu
-     * @param salaireMensu nouveau salaire mensuel
-     */
-    public void setSalaireMensu(double salaireMensu) {
-        this.salaireMensu = salaireMensu;
-    }
+
     /**
      * getter dateEngag
      * @return date d'engagement
      */
     public Date getDateEngag() {
         return dateEngag;
-    }
-
-    /**
-     * setter dateEngag
-     * @param dateEngag définit la date d'engagement
-     */
-    public void setDateEngag(Date dateEngag) {
-        this.dateEngag = dateEngag;
     }
 
     @Override

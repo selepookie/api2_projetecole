@@ -43,25 +43,11 @@ public class Salle {
         return sigle;
     }
     /**
-     * setter sigle
-     * @param sigle nouveau sigle de la salle
-     */
-    public void setSigle(String sigle) {
-        this.sigle = sigle;
-    }
-    /**
      * getter capacite
      * @return capacité actuelle de la salle
      */
     public int getCapacite() {
         return capacite;
-    }
-    /**
-     * setter capacite
-     * @param capacite nouvelle capacité de la salle
-     */
-    public void setCapacite(int capacite) {
-        this.capacite = capacite;
     }
     /**
      * getter cours
@@ -71,25 +57,11 @@ public class Salle {
         return cours;
     }
     /**
-     * setter cours
-     * @param cours nouvelle liste de cours
-     */
-    public void setCours(List<Cours> cours) {
-        this.cours = cours;
-    }
-    /**
      * getter id_salle
      * @return identifiant unique de la salle
      */
     public int getId_salle() {
         return id_salle;
-    }
-    /**
-     * setter id_salle
-     * @param id_salle nouvel identifiant unique de la salle
-     */
-    public void setId_salle(int id_salle) {
-        this.id_salle = id_salle;
     }
 
     public List<Cours> coursSalleDefaut(){

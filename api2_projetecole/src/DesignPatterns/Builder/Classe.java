@@ -40,6 +40,13 @@ public class Classe {
     protected List<Infos> infos = new ArrayList<>();
 
     // private classebuilder
+    private Classe(ClasseBuilder cb) {
+        this.id_classe = cb.id_classe;
+        this.sigle = cb.sigle;
+        this.annee = cb.annee;
+        this.specialite = cb.specialite;
+        this.nbreEleves = cb.nbreEleves;
+    }
 
 
     /**
@@ -49,13 +56,6 @@ public class Classe {
     public int getId_classe() {
         return id_classe;
     }
-    /**
-     * setter id_classe
-     * @param id_classe nouvel identifiant de la classe
-     */
-    public void setId_classe(int id_classe) {
-        this.id_classe = id_classe;
-    }
 
     /**
      * getter sigle
@@ -63,13 +63,6 @@ public class Classe {
      */
     public String getSigle() {
         return sigle;
-    }
-    /**
-     * setter sigle
-     * @param sigle nouveau sigle
-     */
-    public void setSigle(String sigle) {
-        this.sigle = sigle;
     }
 
     /**
@@ -79,13 +72,6 @@ public class Classe {
     public int getAnnee() {
         return annee;
     }
-    /**
-     * setter annee
-     * @param annee nouvelle année
-     */
-    public void setAnnee(int annee) {
-        this.annee = annee;
-    }
 
     /**
      * getter specialite
@@ -93,13 +79,6 @@ public class Classe {
      */
     public String getSpecialite() {
         return specialite;
-    }
-    /**
-     * setter specialite
-     * @param specialite nouvelle spécialité de la classe
-     */
-    public void setSpecialite(String specialite) {
-        this.specialite = specialite;
     }
 
     /**
@@ -110,13 +89,6 @@ public class Classe {
     public int getNbreEleves() {
         return nbreEleves;
     }
-    /**
-     * setter nbreEleves
-     * @param nbreEleves nouveau nombre d'élèves
-     */
-    public void setNbreEleves(int nbreEleves) {
-        this.nbreEleves = nbreEleves;
-    }
 
     /**
      * getter Infos
@@ -126,12 +98,44 @@ public class Classe {
         return infos;
     }
 
-    /**
-     * setter infos
-     * @param infos nouvelle liste d'infos
-     */
-    public void setInfos(List<Infos> infos) {
-        this.infos = infos;
+    public static class ClasseBuilder{
+        protected int id_classe;
+        protected String sigle;
+        protected int annee;
+        protected String specialite;
+        protected int nbreEleves;
+        public ClasseBuilder setId_classe(int id_classe){
+            this.id_classe = id_classe;
+            return this;
+        }
+
+        public ClasseBuilder setSigle(String sigle){
+            this.sigle = sigle;
+            return this;
+        }
+
+        public ClasseBuilder setAnnee(int annee){
+            this.annee = annee;
+            return this;
+        }
+
+        public ClasseBuilder setSpecialite(String specialite){
+            this.specialite=specialite;
+            return this;
+        }
+
+        public ClasseBuilder setNbreEleves(int nbreEleves){
+            this.nbreEleves=nbreEleves;
+            return this;
+        }
+
+        public Classe build() throws Exception {
+            if (sigle == null || annee == 0) {
+                throw new Exception("Informations de construction incomplètes");
+            }
+            return new Classe(this);
+        }
+
     }
 
 
@@ -149,145 +153,6 @@ public class Classe {
                 ", nbreEleves=" + nbreEleves +
                 ", infos=" + infos +
                 '}';
-    }
-    // methodes
-
-
-    /**
-     * calcul du nombre total des heures de la classe
-     * @return nombre total des heures de la classe
-     */
-    public int nbreHeuresTot(){
-        int total_heures=0;
-        for(Infos infos : infos){
-            total_heures+=infos.getNbreHeures();
-        }
-        return total_heures;
-    }
-
-    /**
-     * liste qui comprend chaque enseignant et ses heures avec la classe
-     * @return liste des enseignants et de leurs heures
-     */
-    public List<ListeEnseignantsHeures> listeEnseignantsEtHeures(){
-        List<ListeEnseignantsHeures> listeEnsHrs = new ArrayList<>();
-        for(Infos infos : infos){
-            listeEnsHrs.add(new ListeEnseignantsHeures(infos.getEnseignant(), infos.getNbreHeures()));
-        }
-        return listeEnsHrs;
-    }
-
-    /**
-     * liste qui comprend chaque salle et ses heures avec la classe
-     * @return liste des salles et leurs heures avec la classe
-     */
-    public List<SalleHeures> listeSalleetHeures(){
-        List<SalleHeures> listeSalleHeures = new ArrayList<>();
-        for(Infos infos : infos){
-            listeSalleHeures.add(new SalleHeures(infos.getSalle(), infos.getNbreHeures()));
-        }
-        return listeSalleHeures;
-    }
-
-    /**
-     * liste qui comprend chaque cours et ses heures avec la classe
-     * @return liste des cours et leurs heures avec la classe
-     */
-    public List<CoursHeures> listeCoursetHeures(){
-        List<CoursHeures> listeCoursHeures = new ArrayList<>();
-        for(Infos infos : infos){
-            listeCoursHeures.add(new CoursHeures(infos.getCours(), infos.getNbreHeures()));
-        }
-        return listeCoursHeures;
-    }
-
-    /**
-     * Vérification si une salle a une capacité assez grande pour pouvoir accueillir la classe
-     * @param salle la salle que l'on veut vérifier
-     * @return salle ok ou pas
-     */
-    public boolean salleCapaciteOK(Salle salle){
-        boolean ok;
-        if(getNbreEleves()>=salle.capacite){
-            ok=true;
-        }
-        else{
-            ok=false;
-        }
-
-        return ok;
-    }
-
-    /**
-     * ajout d'un cours pour cette classe
-     * @param nbreHeures nombre d'heures accordées à ce cours
-     * @param cours cours que l'on veut ajouter
-     */
-    public void addCours(int nbreHeures, Cours cours){ // heure et cours seulement
-        boolean ok=false;
-        for(Infos infos : infos){
-            
-            if(infos.getCours().getCode().equals(cours.getCode())) {
-                ok=true;
-            }
-        }
-        if(!ok){
-            infos.add(new Infos(cours,nbreHeures));
-        }
-        else{
-            System.out.println("Cours déjà existant");
-        }
-    }
-
-
-    /**
-     * modification du nombre d'heures d'un cours
-     * @param CoursChoisi cours duquel on doit changer le nombre d'heures
-     * @param nbreHeures nouveau nombre d'heures
-     */
-    public void modifCours(Cours CoursChoisi, int nbreHeures){
-        for(Infos infos : infos){
-            if(infos.getCours().equals(CoursChoisi)){
-                infos.setNbreHeures(nbreHeures);
-                System.out.println("Modification effectuée");
-            }
-        }
-    }
-
-    /**
-     * modification de la salle où est donné un cours
-     * @param CoursChoisi cours duquel on doit changer la salle
-     * @param salleChoisie nouvelle salle
-     */
-    public void modifCours(Cours CoursChoisi, Salle salleChoisie){
-        for(Infos infos : infos){
-            if(infos.getCours().equals(CoursChoisi)){
-                infos.setSalle(salleChoisie);
-                System.out.println("Modification effectuée");
-            }
-        }
-    }
-
-    /**
-     * modification de l'enseignant qui donne un cours
-     * @param CoursChoisi cours duquel on doit changer l'enseignant
-     * @param EnsChoisi nouvel enseignant
-     */
-    public void modifCours(Cours CoursChoisi, Enseignant EnsChoisi){
-        for(Infos infos : infos){
-            if(infos.getCours().equals(CoursChoisi)){
-                infos.setEnseignant(EnsChoisi);
-                System.out.println("Modification effectuée");
-            }
-        }
-    }
-
-    /**
-     * supprime un cours
-     * @param cours cours à supprimer
-     */
-    public void suppCours(Infos cours){
-        infos.remove(cours);
     }
 
 }
