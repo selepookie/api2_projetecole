@@ -26,7 +26,7 @@ public class CoursController {
         return model.removeCours(cours);
     }
 
-    public Cours updateClient(Cours cours) {
+    public Cours update(Cours cours) {
         return model.updateCours(cours);
     }
 

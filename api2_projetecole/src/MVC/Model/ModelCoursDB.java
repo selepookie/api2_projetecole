@@ -1,6 +1,7 @@
 package MVC.Model;
 
 import metier.Cours;
+import metier.Salle;
 import myconnections.DBConnection;
 
 import java.math.BigDecimal;
@@ -103,7 +104,8 @@ public class ModelCoursDB extends DAOCours{
                 String code = rs.getString(2);
                 String intitule = rs.getString(3);
                 int id_salle = rs.getInt(4);
-                Cours cl = new Cours(id_cours, code, intitule, id_salle);
+                Salle salle = DAOSalle.readSalle(id_salle);
+                Cours cl = new Cours(id_cours, code, intitule, salle);
                 return  cl;
 
             }
@@ -128,7 +130,8 @@ public class ModelCoursDB extends DAOCours{
                 String code = rs.getString(2);
                 String intitule = rs.getString(3);
                 int id_salle = rs.getInt(4);
-                Cours cl = new Cours(id_cours,code, intitule, id_salle);
+                Salle salle = DAOSalle.readSalle(id_salle);
+                Cours cl = new Cours(id_cours,code, intitule, salle);
                 lc.add(cl);
             }
             return lc;

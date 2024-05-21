@@ -12,7 +12,9 @@ public abstract class  DAOSalle extends Subject {
 
     public abstract Salle updateSalle(Salle salle);
 
-    public abstract Salle readSalle(int id_salle);
+    public static Salle readSalle(int id_salle) {
+        return null;
+    }
 
     public abstract List<Salle> getSalles();
 }

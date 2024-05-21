@@ -86,14 +86,12 @@ public class ClasseViewConsole extends ClasseAbstractView {
     }
 
     private void rechercher() {
-        System.out.println("idclient : ");
-        int idClient = sc.nextInt();
-        Classe cl = classeController.search(idClient);
+        System.out.println("id_classe : ");
+        int id_classe = sc.nextInt();
+        Classe cl = classeController.search(id_classe);
         if(cl==null) affMsg("recherche infructueuse");
         else {
             affMsg(cl.toString());
-            // ATTENTION METHODES SPECIALES
-            special(cl);
         }
     }
 
