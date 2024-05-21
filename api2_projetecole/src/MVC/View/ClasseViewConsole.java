@@ -92,6 +92,7 @@ public class ClasseViewConsole extends ClasseAbstractView {
         if(cl==null) affMsg("recherche infructueuse");
         else {
             affMsg(cl.toString());
+            // ATTENTION METHODES SPECIALES
             special(cl);
         }
     }

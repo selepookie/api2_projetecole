@@ -1,46 +1,44 @@
 package MVC.Model;
 
-import metier.Cours;
+import metier.Salle;
 import myconnections.DBConnection;
 
 import java.math.BigDecimal;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModelCoursDB extends DAOCours{
+public class ModelSalleDB extends DAOSalle{
     protected Connection dbConnect;
 
-    public ModelCoursDB(){
+    public ModelSalleDB(){
         dbConnect = DBConnection.getConnection();
         if (dbConnect == null) {
             System.err.println("erreur de connexion");
+
             System.exit(1);
         }
+
     }
 
     @Override
-    public Cours addCours(Cours cours) {
-        String query1 = "insert into API_COURS(code, intitule, salle) values(?,?,?,?,?,?,?)";
-        String query2 = "select id_cours from API_cours where code= ? and intitule =? and salle =?";
+    public Salle addSalle(Salle salle) {
+        String query1 = "insert into API_SALLE(sigle,capacite) values(?,?,?,?,?)";
+        String query2 = "select id_salle from APIPRODUIT where sigle= ?";
         try(PreparedStatement pstm1= dbConnect.prepareStatement(query1);
             PreparedStatement pstm2= dbConnect.prepareStatement(query2);
         ){
-            pstm1.setString(1,cours.getCode());
-            pstm1.setString(2,cours.getIntitule());
-            pstm1.setInt(3,cours.getSalle().getId_salle());
+            pstm1.setString(1,salle.getSigle());
+            pstm1.setInt(2,salle.getCapacite());
             int n = pstm1.executeUpdate();
             if(n==1){
-                pstm2.setString(1,cours.getCode());
-                pstm2.setString(2,cours.getIntitule());
-                pstm2.setInt(3,cours.getSalle().getId_salle());
+                pstm2.setString(1,salle.getSigle());
                 ResultSet rs= pstm2.executeQuery();
                 if(rs.next()){
-                    int id_cours= rs.getInt(1);
-                    cours.setId_cours(id_cours);
+                    int id_salle= rs.getInt(1);
+                    salle.setId_salle(id_salle);
                     notifyObservers();
-                    return cours;
+                    return salle;
                 }
                 else {
 
@@ -51,17 +49,17 @@ public class ModelCoursDB extends DAOCours{
             else return null;
 
         } catch (SQLException e) {
-            System.err.println("erreur sql :"+e);
+            //System.err.println("erreur sql :"+e);
 
             return null;
         }
     }
 
     @Override
-    public boolean removeCours(Cours cours) {
-        String query = "delete from API_COURS where id_cours = ?";
+    public boolean removeSalle(Salle salle) {
+        String query = "delete from API_SALLE where id_salle = ?";
         try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
-            pstm.setInt(1,cours.getId_cours());
+            pstm.setInt(1,salle.getId_salle());
             int n = pstm.executeUpdate();
             notifyObservers();
             if(n!=0) return true;
@@ -75,15 +73,14 @@ public class ModelCoursDB extends DAOCours{
     }
 
     @Override
-    public Cours updateCours(Cours cours) {
-        String query = "update API_COURS set code =?,intitule=?,salle=? where id_cours = ?";
+    public Salle updateSalle(Salle salle) {
+        String query = "update API_SALLE set sigle =?,capacite=?where id_salle = ?";
         try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
-            pstm.setString(1,cours.getCode());
-            pstm.setString(2,cours.getIntitule());
-            pstm.setInt(3,cours.getSalle().getId_salle());
+            pstm.setString(1,salle.getSigle());
+            pstm.setInt(2,salle.getCapacite());
             int n = pstm.executeUpdate();
             notifyObservers();
-            if(n!=0) return readCours(cours.getId_cours());
+            if(n!=0) return readSalle(salle.getId_salle());
             else return null;
 
         } catch (SQLException e) {
@@ -94,17 +91,16 @@ public class ModelCoursDB extends DAOCours{
     }
 
     @Override
-    public Cours readCours(int id_cours) {
-        String query = "select * from API_COURS where id_cours = ?";
+    public Salle readSalle(int id_salle) {
+        String query = "select * from API_SALLE where id_salle = ?";
         try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
-            pstm.setInt(1,id_cours);
+            pstm.setInt(1,id_salle);
             ResultSet rs = pstm.executeQuery();
             if(rs.next()){
-                String code = rs.getString(2);
-                String intitule = rs.getString(3);
-                int id_salle = rs.getInt(4);
-                Cours cl = new Cours(id_cours, code, intitule, id_salle);
-                return  cl;
+                String sigle = rs.getString(2);
+                int capacite = rs.getInt(3);
+                Salle sl = new Salle(id_salle,sigle,capacite);
+                return sl;
 
             }
             else {
@@ -118,20 +114,19 @@ public class ModelCoursDB extends DAOCours{
     }
 
     @Override
-    public List<Cours> getCours() {
-        List<Cours> lc = new ArrayList<>();
-        String query="select * from API_COURS";
+    public List<Salle> getSalles() {
+        List<Salle> ls = new ArrayList<>();
+        String query="select * from API_SALLE";
         try(Statement stm = dbConnect.createStatement()) {
             ResultSet rs = stm.executeQuery(query);
             while(rs.next()){
-                int id_cours = rs.getInt(1);
-                String code = rs.getString(2);
-                String intitule = rs.getString(3);
-                int id_salle = rs.getInt(4);
-                Cours cl = new Cours(id_cours,code, intitule, id_salle);
-                lc.add(cl);
+                int id_salle = rs.getInt(1);
+                String sigle = rs.getString(2);
+                int capacite = rs.getInt(3);
+                Salle sl = new Salle(id_salle,sigle,capacite);
+                ls.add(sl);
             }
-            return lc;
+            return ls;
         } catch (SQLException e) {
             System.err.println("erreur sql :"+e);
 
@@ -141,7 +136,6 @@ public class ModelCoursDB extends DAOCours{
 
     @Override
     public List getNotification() {
-        return getCours();
+        return getSalles();
     }
-
 }

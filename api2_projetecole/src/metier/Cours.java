@@ -37,11 +37,16 @@ public class Cours {
      * @param salle salle du cours
      * @param id_cours identifiant unique du cours auto-incrémenté par le i
      */
-    public Cours(String code, String intitule,Salle salle,int id_cours) {
+    public Cours(int id_cours,String code, String intitule,Salle salle) {
         this.code = code;
         this.intitule = intitule;
         this.salle=salle;
         this.id_cours=i++;
+    }
+    public Cours(String code, String intitule, Salle salle){
+        this.code = code;
+        this.intitule = intitule;
+        this.salle = salle;
     }
     /**
      * getter code

@@ -36,12 +36,13 @@ public class Salle {
      * constructeur paramétré
      * @param sigle sigle
      * @param capacite capacité de la salle
-     * @param id_salle identifiant unique de la salle auto-incrémenté par i
+     * @param id_salle identifiant unique de la salle
      */
-    public Salle(String sigle, int capacite, int id_salle) {
-        this.sigle = sigle;
-        this.capacite = capacite;
-        this.id_salle=i++;
+
+    public Salle(int id_salle,String sigle, int capacite){
+        this.id_salle=id_salle;
+        this.sigle=sigle;
+        this.capacite=capacite;
     }
     /**
      * getter sigle
