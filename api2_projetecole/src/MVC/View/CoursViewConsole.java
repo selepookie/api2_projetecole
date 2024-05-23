@@ -1,13 +1,18 @@
 package MVC.View;
 
+import MVC.Controller.SalleController;
 import MVC.Model.DAOSalle;
 import metier.Classe;
 import metier.Cours;
 import metier.Salle;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Stack;
 
 import static java.lang.Integer.parseInt;
 import static utilitaires.Utilitaire.*;
@@ -15,6 +20,7 @@ import static utilitaires.Utilitaire.choixListe;
 
 public class CoursViewConsole extends CoursAbstractView{
     private Scanner sc = new Scanner(System.in);
+    SalleController salleController;
 
     @Override
     public void affMsg(String msg) {
@@ -48,7 +54,7 @@ public class CoursViewConsole extends CoursAbstractView{
 
     @Override
     public void affList(List l) {
-        affList(l);
+        affListe(l);
     }
 
     /*
@@ -82,7 +88,8 @@ public class CoursViewConsole extends CoursAbstractView{
         String code = modifyIfNotBlank("code", cours.getCode());
         String intitule = modifyIfNotBlank("intitule", cours.getIntitule());
         int salleid = parseInt(modifyIfNotBlank("salle", "" + cours.getSalle().getId_salle()));
-        Salle salle = DAOSalle.readSalle(salleid);
+        // FAIRE ICI
+        Salle salle = salleController.search(salleid);
         Cours cl =coursController.update(new Cours(cours.getId_cours(), code, intitule, salle));
         if(cl==null) affMsg("mise à jour infructueuse");
         else affMsg("mise à jour effectuée : "+cl);
@@ -113,7 +120,7 @@ public class CoursViewConsole extends CoursAbstractView{
         String intitule = sc.nextLine();
         System.out.print("id salle : ");
         int id_salle = parseInt(sc.nextLine());
-        Salle salle = DAOSalle.readSalle(id_salle);
+        Salle salle = salleController.search(id_salle);
         Cours cl = coursController.addCours(new Cours(0, code, intitule, salle));
         if(cl!=null) affMsg("création de :"+cl);
         else affMsg("erreur de création");

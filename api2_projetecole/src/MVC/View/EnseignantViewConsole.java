@@ -50,7 +50,7 @@ public class EnseignantViewConsole extends EnseignantAbstractView{
 
     @Override
     public void affList(List l) {
-        affList(l);
+        affListe(l);
     }
 
     /*
@@ -87,9 +87,8 @@ public class EnseignantViewConsole extends EnseignantAbstractView{
         String tel = modifyIfNotBlank("tel", enseignant.getTel());
         int chargeSem = parseInt(modifyIfNotBlank("chargesem","" + enseignant.getChargeSem()));
         double salaireMensu = Double.parseDouble(modifyIfNotBlank("chargesem","" + enseignant.getChargeSem()));
-        java.util.Date date = enseignant.getDateEngag();
-        java.sql.Date dateengag = new java.sql.Date(date.getTime());
-        Enseignant ens =enseignantController.update(new Enseignant(enseignant.getId_enseignant(), matricule, nom, prenom, tel, chargeSem, salaireMensu, dateengag));
+        LocalDate date = enseignant.getDateEngag();
+        Enseignant ens =enseignantController.update(new Enseignant(enseignant.getId_enseignant(), matricule, nom, prenom, tel, chargeSem, salaireMensu, date));
         if(ens==null) affMsg("mise à jour infructueuse");
         else affMsg("mise à jour effectuée : "+ens);
     }
@@ -123,13 +122,13 @@ public class EnseignantViewConsole extends EnseignantAbstractView{
         String tel = sc.nextLine();
         System.out.print("chargesem : ");
         int chargesem = parseInt(sc.nextLine());
+        System.out.print("salaire mensu : ");
         double salairemensu = Double.parseDouble(sc.nextLine());
         System.out.print("Date : ");
         String date = sc.nextLine();
-        LocalDate dateee = formatter.parse(date);
-        java.sql.Date dateengag = new java.sql.Date(dateee.getTime());
-        Cours cl = coursController.addCours(new Cours(0, code, intitule, salle));
-        if(cl!=null) affMsg("création de :"+cl);
+        LocalDate datee = LocalDate.parse(date);
+        Enseignant ens = enseignantController.addEnseignant(new Enseignant(0, matricule, nom, prenom, tel, chargesem, salairemensu, datee));
+        if(ens!=null) affMsg("création de :"+ens);
         else affMsg("erreur de création");
     }
 

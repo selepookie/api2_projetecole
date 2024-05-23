@@ -2,7 +2,12 @@ package MVC.Model;
 
 import MVC.Observer.Subject;
 import metier.Salle;
+import myconnections.DBConnection;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public abstract class  DAOSalle extends Subject {
@@ -12,9 +17,7 @@ public abstract class  DAOSalle extends Subject {
 
     public abstract Salle updateSalle(Salle salle);
 
-    public static Salle readSalle(int id_salle) {
-        return null;
-    }
+    public abstract Salle readSalle(int id_salle);
 
     public abstract List<Salle> getSalles();
 }

@@ -95,34 +95,49 @@ public class ModelCoursDB extends DAOCours{
     }
 
     @Override
-    public Cours readCours(int id_cours) {
-        String query = "select * from API_COURS where id_cours = ?";
-        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
-            pstm.setInt(1,id_cours);
-            ResultSet rs = pstm.executeQuery();
-            if(rs.next()){
-                String code = rs.getString(2);
-                String intitule = rs.getString(3);
-                int id_salle = rs.getInt(4);
-                Salle salle = DAOSalle.readSalle(id_salle);
-                Cours cl = new Cours(id_cours, code, intitule, salle);
-                return  cl;
+        public Cours readCours(int id_cours) {
+            String query = "SELECT * FROM API_COURS WHERE id_cours = ?";
+            String query2 = "SELECT * FROM API_SALLE WHERE id_salle = ?";
+            try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+                pstm.setInt(1, id_cours);
+                ResultSet rs = pstm.executeQuery();
+                if (rs.next()) {
+                    String code = rs.getString(2);
+                    String intitule = rs.getString(3);
+                    int id_salle = rs.getInt(4);
 
-            }
-            else {
+                    // Déclarez les variables sigle et capacite ici
+                    String sigle = null;
+                    int capacite = 0;
+
+                    try (PreparedStatement pstm2 = dbConnect.prepareStatement(query2)) {
+                        pstm2.setInt(1, id_salle);
+                        ResultSet rs2 = pstm2.executeQuery();
+                        if (rs2.next()) {
+                            sigle = rs2.getString(2);
+                            capacite = rs2.getInt(3);
+                        }
+                    } catch (SQLException e) {
+                        System.err.println("Erreur SQL dans la récupération de la salle: " + e.getMessage());
+                        return null;
+                    }
+                    Salle salle = new Salle(id_salle, sigle, capacite);
+                    Cours cours = new Cours(id_cours, code, intitule, salle);
+                    return cours;
+                } else {
+                    return null;
+                }
+            } catch (SQLException e) {
+                System.err.println("Erreur SQL dans la récupération du cours: " + e.getMessage());
                 return null;
             }
-        } catch (SQLException e) {
-            System.err.println("erreur sql :"+e);
-
-            return null;
         }
-    }
 
     @Override
     public List<Cours> getCours() {
         List<Cours> lc = new ArrayList<>();
         String query="select * from API_COURS";
+        String query2 ="select * from API_SALLE where id_salle = ?";
         try(Statement stm = dbConnect.createStatement()) {
             ResultSet rs = stm.executeQuery(query);
             while(rs.next()){
@@ -130,7 +145,21 @@ public class ModelCoursDB extends DAOCours{
                 String code = rs.getString(2);
                 String intitule = rs.getString(3);
                 int id_salle = rs.getInt(4);
-                Salle salle = DAOSalle.readSalle(id_salle);
+                String sigle = null;
+                int capacite = 0;
+
+                try (PreparedStatement pstm2 = dbConnect.prepareStatement(query2)) {
+                    pstm2.setInt(1, id_salle);
+                    ResultSet rs2 = pstm2.executeQuery();
+                    if (rs2.next()) {
+                        sigle = rs2.getString(2);
+                        capacite = rs2.getInt(3);
+                    }
+                } catch (SQLException e) {
+                    System.err.println("Erreur SQL dans la récupération de la salle: " + e.getMessage());
+                    return null;
+                }
+                Salle salle = new Salle(id_salle, sigle, capacite);
                 Cours cl = new Cours(id_cours,code, intitule, salle);
                 lc.add(cl);
             }

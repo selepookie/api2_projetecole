@@ -6,6 +6,7 @@ import metier.Salle;
 import myconnections.DBConnection;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
@@ -34,9 +35,10 @@ public class ModelEnseignantDB extends DAOEnseignant {
             pstm1.setString(4,enseignant.getTel());
             pstm1.setInt(5,enseignant.getChargeSem());
             pstm1.setDouble(6,enseignant.getSalaireMensu());
-            java.util.Date date = enseignant.getDateEngag();
-            java.sql.Date datesql = new java.sql.Date(date.getTime());
-            pstm1.setDate(7, datesql);
+            // j'ai regardé sur internet pour la date car je galerais un peu !! j'ai trouvé sur le forum stackoverflow
+            LocalDate date = enseignant.getDateEngag();
+            java.sql.Date datee = java.sql.Date.valueOf(date);
+            pstm1.setDate(7, datee);
             int n = pstm1.executeUpdate();
             if(n==1){
                 pstm2.setString(1,enseignant.getMatricule());
@@ -45,7 +47,7 @@ public class ModelEnseignantDB extends DAOEnseignant {
                 pstm2.setString(4,enseignant.getTel());
                 pstm2.setInt(5,enseignant.getChargeSem());
                 pstm2.setDouble(6,enseignant.getSalaireMensu());
-                pstm2.setDate(7, datesql);
+                pstm2.setDate(7, datee);
                 ResultSet rs= pstm2.executeQuery();
                 if(rs.next()){
                     int id_enseignant= rs.getInt(1);
@@ -95,9 +97,9 @@ public class ModelEnseignantDB extends DAOEnseignant {
             pstm.setString(4,enseignant.getTel());
             pstm.setInt(5,enseignant.getChargeSem());
             pstm.setDouble(6,enseignant.getSalaireMensu());
-            java.util.Date date = enseignant.getDateEngag();
-            java.sql.Date datesql = new java.sql.Date(date.getTime());
-            pstm.setDate(7, datesql);
+            LocalDate date = enseignant.getDateEngag();
+            java.sql.Date datee = java.sql.Date.valueOf(date);
+            pstm.setDate(7, datee);
             int n = pstm.executeUpdate();
             notifyObservers();
             if(n!=0) return readEnseignant(enseignant.getId_enseignant());
@@ -123,7 +125,7 @@ public class ModelEnseignantDB extends DAOEnseignant {
                 String tel = rs.getString(5);
                 int chargeSem = rs.getInt(6);
                 double salairemensu = rs.getDouble(7);
-                Date dateengag = rs.getDate(8);
+                LocalDate dateengag = rs.getDate(8).toLocalDate();
                 Enseignant ens = new Enseignant(id_enseignant, matricule, nom, prenom, tel, chargeSem, salairemensu, dateengag);
                 return  ens;
 
@@ -152,7 +154,7 @@ public class ModelEnseignantDB extends DAOEnseignant {
                 String tel = rs.getString(5);
                 int chargeSem = rs.getInt(6);
                 double salairemensu = rs.getDouble(7);
-                Date dateengag = rs.getDate(8);
+                LocalDate dateengag = rs.getDate(8).toLocalDate();
 
                 Enseignant ens = new Enseignant(id_enseignant, matricule, nom, prenom, tel, chargeSem, salairemensu, dateengag);
                 lc.add(ens);
