@@ -150,13 +150,13 @@ public class ModelCoursDB extends DAOCours{
 
                 try (PreparedStatement pstm2 = dbConnect.prepareStatement(query2)) {
                     pstm2.setInt(1, id_salle);
-                    ResultSet rs2 = pstm2.executeQuery();
+                    ResultSet rs2 = pstm2.executeQuery(query2);
                     if (rs2.next()) {
                         sigle = rs2.getString(2);
                         capacite = rs2.getInt(3);
                     }
                 } catch (SQLException e) {
-                    System.err.println("Erreur SQL dans la récupération de la salle: " + e.getMessage());
+                    System.err.println("erreur sql: " + e);
                     return null;
                 }
                 Salle salle = new Salle(id_salle, sigle, capacite);

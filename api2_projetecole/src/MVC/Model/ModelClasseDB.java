@@ -1,10 +1,14 @@
 package MVC.Model;
 
 import metier.Classe;
+import metier.Enseignant;
+import metier.ListeEnseignantsHeures;
 import myconnections.DBConnection;
 
+import javax.xml.transform.Result;
 import java.math.BigDecimal;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -150,5 +154,71 @@ public class ModelClasseDB extends DAOClasse {
     @Override
     public List getNotification() {
         return getClasses();
+    }
+
+    @Override
+    public int nbreHeuresTot(Classe classe){
+        int nb=0;
+        String query = "select nbreHeures from API_INFOS where id_classe = ? ";
+        try(PreparedStatement pstm = dbConnect.prepareStatement(query)){
+            pstm.setInt(1,classe.getId_classe());
+            ResultSet rs = pstm.executeQuery(query);
+            while(rs.next()){
+                nb = nb + rs.getInt(2);
+            }
+            return nb;
+        }
+        catch(SQLException e){
+            System.err.println("erreur sql : "+e);
+        }
+        return nb;
+    }
+
+    @Override
+    public List<ListeEnseignantsHeures> listeEnsHeures(Classe classe){
+        List<ListeEnseignantsHeures> leh = new ArrayList<>();
+        String query = "select id_enseignant, nbreHeures from API_INFOS where id_classe = ?";
+        String query2 = "select * from API_ENSEIGNANT where id_enseignant = ?";
+        try(PreparedStatement pstm1 = dbConnect.prepareStatement(query)){
+            pstm1.setInt(1,classe.getId_classe());
+            ResultSet rs = pstm1.executeQuery(query);
+            while(rs.next()){
+                int id_ens = rs.getInt(5);
+                int nbh = rs.getInt(2);
+                Enseignant ens = null;
+                try(PreparedStatement pstm2 = dbConnect.prepareStatement(query2)){
+                    pstm2.setInt(1,id_ens);
+                    ResultSet rs2 = pstm2.executeQuery(query2);
+                    String matricule=null;
+                    String nom=null;
+                    String prenom=null;
+                    String tel=null;
+                    int chargesem=0;
+                    double salairemensu=0;
+                    LocalDate dateengag = null;
+                    if(rs2.next()){
+                        matricule = rs2.getString(2);
+                        nom = rs2.getString(3);
+                        prenom = rs2.getString(4);
+                        tel = rs2.getString(5);
+                        chargesem = rs2.getInt(6);
+                        salairemensu = rs2.getDouble(7);
+                        dateengag = rs2.getDate(8).toLocalDate();
+                    }
+                    ens = new Enseignant(id_ens, matricule, nom,prenom,tel,chargesem,salairemensu,dateengag);
+                }
+                catch(SQLException e){
+                    System.err.println("erreur sql : "+e);
+                    return null;
+                }
+                ListeEnseignantsHeures list = new ListeEnseignantsHeures(ens,nbh);
+                leh.add(list);
+;            }
+        }
+        catch(SQLException e){
+            System.err.println("erreur sql : "+e);
+            return null;
+        }
+        return leh;
     }
 }

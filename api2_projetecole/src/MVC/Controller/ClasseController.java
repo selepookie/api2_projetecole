@@ -3,6 +3,7 @@ package MVC.Controller;
 import MVC.Model.DAOClasse;
 import MVC.View.ClasseAbstractView;
 import metier.Classe;
+import metier.ListeEnseignantsHeures;
 
 import java.util.List;
 
@@ -35,4 +36,8 @@ public class ClasseController {
     public Classe search(int idClasse) {
         return  model.readClasse(idClasse);
     }
+    public int nbreHeuresTot(Classe classe){ return model.nbreHeuresTot(classe);}
+
+    public List<ListeEnseignantsHeures> listeEnsHeures(Classe classe) { return model.listeEnsHeures(classe);}
+
 }
