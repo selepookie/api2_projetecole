@@ -17,7 +17,7 @@ public abstract class CoursAbstractView implements Observer {
     public abstract Cours selectionner();
 
     public abstract void menu();
-    public abstract void affList(List l);
+    public abstract void affList(List lc);
 
     @Override
     public void update(List lc) {

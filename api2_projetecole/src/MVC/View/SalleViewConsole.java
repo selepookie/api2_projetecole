@@ -44,8 +44,8 @@ public class SalleViewConsole extends SalleAbstractView{
     }
 
     @Override
-    public void affListe(List lc) {
-        affListe(lc);
+    public void affList(List lc) {
+        affList(lc);
     }
 
 

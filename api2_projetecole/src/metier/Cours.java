@@ -104,4 +104,14 @@ public class Cours {
     public void setId_cours(int id_cours) {
         this.id_cours = id_cours;
     }
+
+    @Override
+    public String toString() {
+        return "Cours{" +
+                "id_cours=" + id_cours +
+                ", code='" + code + '\'' +
+                ", intitule='" + intitule + '\'' +
+                ", salle=" + salle +
+                '}';
+    }
 }

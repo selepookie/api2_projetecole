@@ -153,4 +153,15 @@ public class Infos {
     public void setEnseignant(Enseignant enseignant) {
         this.enseignant = enseignant;
     }
+
+    @Override
+    public String toString() {
+        return "Infos{" +
+                "id_infos=" + id_infos +
+                ", nbreHeures=" + nbreHeures +
+                ", cours=" + cours +
+                ", salle=" + salle +
+                ", enseignant=" + enseignant +
+                '}';
+    }
 }

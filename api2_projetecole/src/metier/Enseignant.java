@@ -184,4 +184,18 @@ public class Enseignant {
     public void setDateEngag(LocalDate dateEngag) {
         this.dateEngag = dateEngag;
     }
+
+    @Override
+    public String toString() {
+        return "Enseignant{" +
+                "id_enseignant=" + id_enseignant +
+                ", matricule='" + matricule + '\'' +
+                ", nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", tel='" + tel + '\'' +
+                ", chargeSem=" + chargeSem +
+                ", salaireMensu=" + salaireMensu +
+                ", dateEngag=" + dateEngag +
+                '}';
+    }
 }

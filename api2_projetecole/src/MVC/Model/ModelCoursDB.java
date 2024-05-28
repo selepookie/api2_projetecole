@@ -105,8 +105,6 @@ public class ModelCoursDB extends DAOCours{
                     String code = rs.getString(2);
                     String intitule = rs.getString(3);
                     int id_salle = rs.getInt(4);
-
-                    // Déclarez les variables sigle et capacite ici
                     String sigle = null;
                     int capacite = 0;
 

@@ -323,4 +323,6 @@ public class Classe {
         infos.remove(cours);
     }
 
+
+
 }

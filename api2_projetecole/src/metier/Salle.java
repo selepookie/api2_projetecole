@@ -112,4 +112,14 @@ public class Salle {
         }
         return listecours;
     }
+
+    @Override
+    public String toString() {
+        return "Salle{" +
+                "id_salle=" + id_salle +
+                ", sigle='" + sigle + '\'' +
+                ", capacite=" + capacite +
+                ", cours=" + cours +
+                '}';
+    }
 }

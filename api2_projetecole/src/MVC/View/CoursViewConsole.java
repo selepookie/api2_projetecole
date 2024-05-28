@@ -2,6 +2,7 @@ package MVC.View;
 
 import MVC.Controller.SalleController;
 import MVC.Model.DAOSalle;
+import MVC.Model.ModelSalleDB;
 import metier.Classe;
 import metier.Cours;
 import metier.Salle;
@@ -20,7 +21,11 @@ import static utilitaires.Utilitaire.choixListe;
 
 public class CoursViewConsole extends CoursAbstractView{
     private Scanner sc = new Scanner(System.in);
-    SalleController salleController;
+    private SalleController salleController;
+
+    public CoursViewConsole(){
+        this.salleController=new SalleController(new ModelSalleDB(), new SalleViewConsole());
+    }
 
     @Override
     public void affMsg(String msg) {
@@ -53,8 +58,8 @@ public class CoursViewConsole extends CoursAbstractView{
     }
 
     @Override
-    public void affList(List l) {
-        affListe(l);
+    public void affList(List lc) {
+        affListe(lc);
     }
 
     /*
@@ -87,9 +92,7 @@ public class CoursViewConsole extends CoursAbstractView{
         Cours cours = lc.get(nl);
         String code = modifyIfNotBlank("code", cours.getCode());
         String intitule = modifyIfNotBlank("intitule", cours.getIntitule());
-        int salleid = parseInt(modifyIfNotBlank("salle", "" + cours.getSalle().getId_salle()));
-        // FAIRE ICI
-        Salle salle = salleController.search(salleid);
+        Salle salle = selectionnerSalle();
         Cours cl =coursController.update(new Cours(cours.getId_cours(), code, intitule, salle));
         if(cl==null) affMsg("mise à jour infructueuse");
         else affMsg("mise à jour effectuée : "+cl);
@@ -106,7 +109,7 @@ public class CoursViewConsole extends CoursAbstractView{
     }
 
     private void retirer() {
-        int nl = choixElt(lc)-1;
+        int nl = choixListe(lc)-1;
         Cours cours = lc.get(nl);
         boolean ok = coursController.removeCours(cours);
         if(ok) affMsg("cours effacé");
@@ -132,6 +135,20 @@ public class CoursViewConsole extends CoursAbstractView{
         int nl = choixListe(lc);
         Cours cl = lc.get(nl - 1);
         return cl;
+    }
+
+    private Salle selectionnerSalle() {
+        System.out.print("Salle : ");
+        List<Salle> salles= salleController.getAll();
+        affList(salles);
+        System.out.println("Entrez l'id de la salle :");
+        int idSalle = sc.nextInt();
+        sc.nextLine();
+        for (Salle s : salles){
+            if (s.getId_salle()==idSalle)
+                return s;
+        }
+        return null;
     }
 }
 

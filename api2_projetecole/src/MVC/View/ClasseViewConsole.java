@@ -48,33 +48,8 @@ public class ClasseViewConsole extends ClasseAbstractView {
         affListe(l);
     }
 
-    /*
-    private void special(Classe cl) {
-
-        do {
-            int ch = choixListe(Arrays.asList("commandes en cours", "factures non payees", "factures en retard", "factures payees", "produits achetés", "menu principal"));
-            if(ch==6) return;
-            List l =   switch (ch) {
-                case 1 ->  clientController.commandes(cl);
-
-                case 2 ->  clientController.factNonPayees(cl);
-
-                case 3 ->   clientController.factRetard(cl);
-
-                case 4 ->   clientController.factPayees(cl);
-
-                case 5  ->   clientController.produits(cl);
-                default -> null;
-            };
-            if(l==null || l.isEmpty()) affMsg("aucun élément trouvée");
-            else affList(l);
-        } while (true);
-    }
-
-*/
-
     private void modifier() {
-        int nl = choixElt(lc) - 1;
+        int nl = choixListe(lc) - 1;
         Classe classe = lc.get(nl);
         String sigle = modifyIfNotBlank("sigle", classe.getSigle());
         int annee = parseInt(modifyIfNotBlank("année","" + classe.getAnnee()));

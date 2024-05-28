@@ -6,6 +6,8 @@ import metier.Salle;
 
 import java.util.List;
 
+import static utilitaires.Utilitaire.affListe;
+
 public abstract class SalleAbstractView implements Observer {
 
     protected SalleController salleController;
@@ -21,10 +23,10 @@ public abstract class SalleAbstractView implements Observer {
 
     public abstract void menu();
 
-    public abstract void affListe(List lc);
+    public abstract void affList(List lc);
     @Override
     public void update(List lc) {
         this.lc = lc;
-        affListe(lc);
+        affList(lc);
     }
 }

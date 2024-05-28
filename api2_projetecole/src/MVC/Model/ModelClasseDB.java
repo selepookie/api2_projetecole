@@ -3,6 +3,7 @@ package MVC.Model;
 import metier.Classe;
 import metier.Enseignant;
 import metier.ListeEnseignantsHeures;
+import metier.Salle;
 import myconnections.DBConnection;
 
 import javax.xml.transform.Result;
@@ -58,72 +59,64 @@ public class ModelClasseDB extends DAOClasse {
 
     @Override
     public boolean removeClasse(Classe classe) {
-            System.out.println("id de la classe recherchée :  ");
-            int idrech = sc.nextInt();
-            String query = "delete from API_CLASSE where id_classe = ?";
-            boolean ok=false;
-            try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
-                pstm.setInt(1,idrech);
-                int n = pstm.executeUpdate();
-                if(n!=0) {
-                    System.out.println(n+ "ligne supprimée");
-                    ok = true;
-                }
-                else {
-                    System.out.println("record introuvable");
-                }
+        String query = "delete from API_CLASSE where id_classe = ?";
+        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1,classe.getId_classe());
+            int n = pstm.executeUpdate();
+            notifyObservers();
+            if(n!=0) return true;
+            else return false;
 
-            } catch (SQLException e) {
-                System.out.println("erreur sql :"+e);
-            }
-            return ok;
+        } catch (SQLException e) {
+            System.err.println("erreur sql :"+e);
+
+            return false;
+        }
     }
 
     @Override
     public Classe updateClasse(Classe classe) {
-        System.out.println("id de la classe recherchée ");
-        int idrech = sc.nextInt();
-
-        System.out.println("nouveau nombre d'élèves : ");
-        int nbreEleves = sc.nextInt();
-        String query = "update API_CLASSE set nbreEleves=? where id_classe = ?";
+        String query = "update API_CLASSE set sigle =?,annee=?,specialite=?, nbreEleves=? where id_classe = ?";
         try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
-            pstm.setInt(1,nbreEleves);
-            pstm.setInt(2,idrech);
+            pstm.setString(1,classe.getSigle());
+            pstm.setInt(2,classe.getAnnee());
+            pstm.setString(3,classe.getSpecialite());
+            pstm.setInt(4,classe.getNbreEleves());
             int n = pstm.executeUpdate();
-            if(n!=0) System.out.println(n+ "ligne mise à jour");
-            else System.out.println("record introuvable");
+            notifyObservers();
+            if(n!=0) return readClasse(classe.getId_classe());
+            else return null;
 
         } catch (SQLException e) {
-            System.out.println("erreur sql :" + e);
+            System.err.println("erreur sql :" + e);
+
+            return null;
         }
-        return classe;
     }
 
     @Override
-    public Classe readClasse(int idclasse) {
-        Classe classe = null;  // Initialiser la variable classe
-        String query = "SELECT * FROM API_CLASSE WHERE id_classe = ?";
-
-        try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
-            pstm.setInt(1, idclasse);  // Utiliser l'argument de la méthode
+    public Classe readClasse(int id_classe) {
+        String query = "select * from API_CLASSE where id_classe = ?";
+        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1,id_classe);
             ResultSet rs = pstm.executeQuery();
-
-            if (rs.next()) {
+            if(rs.next()){
                 String sigle = rs.getString(2);
                 int annee = rs.getInt(3);
                 String specialite = rs.getString(4);
                 int nbreEleves = rs.getInt(5);
-                classe = new Classe(idclasse, sigle, annee, specialite, nbreEleves);
-                System.out.println(classe);
-            } else {
-                System.out.println("record introuvable");
+                Classe cl = new Classe(id_classe, sigle, annee, specialite, nbreEleves);
+                return cl;
+
+            }
+            else {
+                return null;
             }
         } catch (SQLException e) {
-            System.out.println("erreur sql :" + e);
-        }
+            System.err.println("erreur sql :"+e);
 
-        return classe;  // Retourner la variable classe
+            return null;
+        }
     }
 
 
