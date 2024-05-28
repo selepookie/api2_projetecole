@@ -83,7 +83,7 @@ public class CoursViewConsole extends CoursAbstractView{
 */
 
     private void modifier() {
-        int nl = choixElt(lc) - 1;
+        int nl = choixListe(lc) - 1;
         Cours cours = lc.get(nl);
         String code = modifyIfNotBlank("code", cours.getCode());
         String intitule = modifyIfNotBlank("intitule", cours.getIntitule());

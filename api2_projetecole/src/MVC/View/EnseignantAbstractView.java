@@ -5,6 +5,8 @@ import metier.Enseignant;
 
 import java.util.List;
 
+import static utilitaires.Utilitaire.affListe;
+
 public abstract class EnseignantAbstractView  implements Observer {
     protected EnseignantController enseignantController;
     protected List<Enseignant> lc;
@@ -16,12 +18,12 @@ public abstract class EnseignantAbstractView  implements Observer {
     public abstract Enseignant selectionner();
 
     public abstract void menu();
-    public abstract void affList(List l);
+    public abstract void affListe(List l);
 
     @Override
     public void update(List lc) {
         this.lc = lc;
-        affList(lc);
+        affListe(lc);
     }
 
 }

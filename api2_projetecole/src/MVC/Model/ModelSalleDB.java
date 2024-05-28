@@ -23,8 +23,8 @@ public class ModelSalleDB extends DAOSalle{
 
     @Override
     public Salle addSalle(Salle salle) {
-        String query1 = "insert into API_SALLE(sigle,capacite) values(?,?,?,?,?)";
-        String query2 = "select id_salle from APIPRODUIT where sigle= ?";
+        String query1 = "insert into API_SALLE(sigle,capacite) values(?,?)";
+        String query2 = "select id_salle from API_SALLE where sigle= ?";
         try(PreparedStatement pstm1= dbConnect.prepareStatement(query1);
             PreparedStatement pstm2= dbConnect.prepareStatement(query2);
         ){
@@ -49,7 +49,7 @@ public class ModelSalleDB extends DAOSalle{
             else return null;
 
         } catch (SQLException e) {
-            //System.err.println("erreur sql :"+e);
+            System.err.println("erreur sql :"+e);
 
             return null;
         }
@@ -116,7 +116,7 @@ public class ModelSalleDB extends DAOSalle{
 
     @Override
     public List<Salle> getSalles() {
-        List<Salle> ls = new ArrayList<>();
+        List<Salle> lc = new ArrayList<>();
         String query="select * from API_SALLE";
         try(Statement stm = dbConnect.createStatement()) {
             ResultSet rs = stm.executeQuery(query);
@@ -125,9 +125,9 @@ public class ModelSalleDB extends DAOSalle{
                 String sigle = rs.getString(2);
                 int capacite = rs.getInt(3);
                 Salle sl = new Salle(id_salle,sigle,capacite);
-                ls.add(sl);
+                lc.add(sl);
             }
-            return ls;
+            return lc;
         } catch (SQLException e) {
             System.err.println("erreur sql :"+e);
 

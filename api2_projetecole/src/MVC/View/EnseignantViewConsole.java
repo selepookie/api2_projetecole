@@ -49,37 +49,12 @@ public class EnseignantViewConsole extends EnseignantAbstractView{
     }
 
     @Override
-    public void affList(List l) {
+    public void affListe(List l) {
         affListe(l);
     }
 
-    /*
-    private void special(Classe cl) {
-
-        do {
-            int ch = choixListe(Arrays.asList("commandes en cours", "factures non payees", "factures en retard", "factures payees", "produits achetés", "menu principal"));
-            if(ch==6) return;
-            List l =   switch (ch) {
-                case 1 ->  clientController.commandes(cl);
-
-                case 2 ->  clientController.factNonPayees(cl);
-
-                case 3 ->   clientController.factRetard(cl);
-
-                case 4 ->   clientController.factPayees(cl);
-
-                case 5  ->   clientController.produits(cl);
-                default -> null;
-            };
-            if(l==null || l.isEmpty()) affMsg("aucun élément trouvée");
-            else affList(l);
-        } while (true);
-    }
-
-*/
-
     private void modifier() {
-        int nl = choixElt(lc) - 1;
+        int nl = choixListe(lc) - 1;
         Enseignant enseignant = lc.get(nl);
         String matricule = modifyIfNotBlank("matricule", enseignant.getMatricule());
         String nom = modifyIfNotBlank("nom", enseignant.getNom());
@@ -104,7 +79,7 @@ public class EnseignantViewConsole extends EnseignantAbstractView{
     }
 
     private void retirer() {
-        int nl = choixElt(lc)-1;
+        int nl = choixListe(lc)-1;
         Enseignant ens = lc.get(nl);
         boolean ok = enseignantController.removeEnseignant(ens);
         if(ok) affMsg("enseignant effacé");
@@ -124,9 +99,15 @@ public class EnseignantViewConsole extends EnseignantAbstractView{
         int chargesem = parseInt(sc.nextLine());
         System.out.print("salaire mensu : ");
         double salairemensu = Double.parseDouble(sc.nextLine());
-        System.out.print("Date : ");
-        String date = sc.nextLine();
-        LocalDate datee = LocalDate.parse(date);
+        System.out.print("Date d'engagement: ");
+        // j'avais des difficultés à entrer la date donc nolwenn m'a aidé
+        System.out.println("Jour : ");
+        int jour = Integer.parseInt(sc.nextLine());
+        System.out.println("Mois : ");
+        int mois = Integer.parseInt(sc.nextLine());
+        System.out.println("Annee : ");
+        int annee = Integer.parseInt(sc.nextLine());
+        LocalDate datee = LocalDate.of(annee, mois, jour);
         Enseignant ens = enseignantController.addEnseignant(new Enseignant(0, matricule, nom, prenom, tel, chargesem, salairemensu, datee));
         if(ens!=null) affMsg("création de :"+ens);
         else affMsg("erreur de création");

@@ -27,7 +27,6 @@ public class GestionEcole {
 
 
     public void gestion(){
-        //cm = new ClientModelDB();
         clm = new ModelClasseDB();
         com = new ModelCoursDB();
         em=new ModelEnseignantDB();

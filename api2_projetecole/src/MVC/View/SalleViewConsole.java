@@ -44,8 +44,8 @@ public class SalleViewConsole extends SalleAbstractView{
     }
 
     @Override
-    public void affList(List l) {
-        affListe(l);
+    public void affListe(List lc) {
+        affListe(lc);
     }
 
 
@@ -72,7 +72,7 @@ public class SalleViewConsole extends SalleAbstractView{
     }
 
     private void retirer() {
-        int nl = choixElt(lc)-1;
+        int nl = choixListe(lc)-1;
         Salle salle = lc.get(nl);
         boolean ok = salleController.removeSalle(salle);
         if(ok) affMsg("salle effacée");
@@ -92,7 +92,7 @@ public class SalleViewConsole extends SalleAbstractView{
     @Override
     public Salle selectionner() {
         update(salleController.getAll());
-        int nl = choixListe(lc);
+        int nl = choixElt(lc);
         Salle salle = lc.get(nl - 1);
         return salle;
     }

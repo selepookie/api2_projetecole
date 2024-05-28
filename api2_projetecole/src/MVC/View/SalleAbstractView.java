@@ -21,9 +21,10 @@ public abstract class SalleAbstractView implements Observer {
 
     public abstract void menu();
 
-    public abstract void affList(List l);
+    public abstract void affListe(List lc);
     @Override
-    public void update(List l) {
-
+    public void update(List lc) {
+        this.lc = lc;
+        affListe(lc);
     }
 }

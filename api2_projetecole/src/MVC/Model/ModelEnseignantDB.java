@@ -9,7 +9,6 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Date;
 
 public class ModelEnseignantDB extends DAOEnseignant {
     protected Connection dbConnect;
@@ -35,19 +34,12 @@ public class ModelEnseignantDB extends DAOEnseignant {
             pstm1.setString(4,enseignant.getTel());
             pstm1.setInt(5,enseignant.getChargeSem());
             pstm1.setDouble(6,enseignant.getSalaireMensu());
-            // j'ai regardé sur internet pour la date car je galerais un peu !! j'ai trouvé sur le forum stackoverflow
-            LocalDate date = enseignant.getDateEngag();
-            java.sql.Date datee = java.sql.Date.valueOf(date);
-            pstm1.setDate(7, datee);
+            pstm1.setDate(7, Date.valueOf(enseignant.getDateEngag()));
             int n = pstm1.executeUpdate();
             if(n==1){
                 pstm2.setString(1,enseignant.getMatricule());
                 pstm2.setString(2,enseignant.getNom());
                 pstm2.setString(3,enseignant.getPrenom());
-                pstm2.setString(4,enseignant.getTel());
-                pstm2.setInt(5,enseignant.getChargeSem());
-                pstm2.setDouble(6,enseignant.getSalaireMensu());
-                pstm2.setDate(7, datee);
                 ResultSet rs= pstm2.executeQuery();
                 if(rs.next()){
                     int id_enseignant= rs.getInt(1);
@@ -142,7 +134,7 @@ public class ModelEnseignantDB extends DAOEnseignant {
 
     @Override
     public List<Enseignant> getEnseignants() {
-        List<Enseignant> lc = new ArrayList<>();
+        List<Enseignant> lc= new ArrayList<>();
         String query="select * from API_ENSEIGNANT";
         try(Statement stm = dbConnect.createStatement()) {
             ResultSet rs = stm.executeQuery(query);
