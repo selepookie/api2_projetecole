@@ -13,6 +13,9 @@ import static utilitaires.Utilitaire.*;
 
 public class ClasseViewConsole extends ClasseAbstractView {
     private Scanner sc = new Scanner(System.in);
+    SalleViewConsole sv;
+    CoursViewConsole cv;
+    EnseignantViewConsole ev;
 
     @Override
     public void affMsg(String msg) {
@@ -48,7 +51,8 @@ public class ClasseViewConsole extends ClasseAbstractView {
 
         do {
 
-            int ch = choixListe(Arrays.asList("nombre d'heures totales", "liste enseignants et heures", "liste salles et heures", "liste cours et heures","fin"));
+            int ch = choixListe(Arrays.asList("nombre d'heures totales", "liste enseignants et heures", "liste salles et heures", "liste cours et heures", "capacité d'une salle ok",
+                    "ajouter un cours", "modifier la salle d'un cours", "modifier le nombre d'heures d'un cours", "modifier l'enseignant d'un cours", "fin"));
             switch (ch) {
                 case 1:
                     nbreHeuresTot(cl);
@@ -62,7 +66,21 @@ public class ClasseViewConsole extends ClasseAbstractView {
                 case 4:
                     listeCoursHeures(cl);
                     break;
-                case 5 : return;
+                case 5:
+                    salleCapOK(cl);
+                    break;
+                case 6:
+                    addCours(cl);
+                    break;
+                case 7:
+                    modifSalleCours(cl);
+                    break;
+                case 8:
+                    modifCoursHeures(cl);
+                    break;
+                case 9:
+                    modifCoursEns(cl);
+                    break;
             }
         } while (true);
     }
@@ -92,6 +110,51 @@ public class ClasseViewConsole extends ClasseAbstractView {
         List<CoursHeures> ch = classeController.listeCoursHeures(cl);
         if (ch.isEmpty()) System.out.println("liste nulle");
         else affList(ch);
+    }
+
+    public void salleCapOK(Classe cl) {
+        boolean ok = classeController.salleCapOK(cl);
+        if (ok) System.out.println("salle ok");
+        else System.out.println("pas ok");
+    }
+
+    public void addCours(Classe cl) {
+        boolean ok = classeController.addCours(cl);
+        if (ok) System.out.println("ajout réussi");
+        else System.out.println("erreur lors de l'ajout");
+    }
+
+    public void modifSalleCours(Classe cl) {
+        System.out.println("modification d'une salle d'un cours : ");
+        System.out.println("salle : ");
+        Salle sl = sv.selectionner();
+        System.out.println("cours : ");
+        Cours c = cv.selectionner();
+        boolean ok = classeController.modifCoursSalle(cl, c, sl);
+        if (ok) affMsg("mise à jour effectuée");
+        else affMsg("mise à jour infructueuse");
+    }
+
+    public void modifCoursHeures(Classe cl) {
+        System.out.println("modification du nombre d'heures d'un cours : ");
+        System.out.println("cours : ");
+        Cours c = cv.selectionner();
+        System.out.println("nouveau nombre d'heures : ");
+        int nb = sc.nextInt();
+        boolean ok = classeController.modifCoursHeures(cl, c, nb);
+        if (ok) affMsg("mise à jour effectuée");
+        else affMsg("mise à jour infructueuse");
+    }
+
+    public void modifCoursEns(Classe cl) {
+        System.out.println("modification de l'enseignant d'un cours : ");
+        System.out.println("cours : ");
+        Cours c = cv.selectionner();
+        System.out.println("nouvel enseignant : ");
+        Enseignant ens = ev.selectionner();
+        boolean ok = classeController.modifCoursEns(cl, c, ens);
+        if (ok) affMsg("mise à jour effectuée");
+        else affMsg("mise à jour infructueuse");
     }
 
     @Override

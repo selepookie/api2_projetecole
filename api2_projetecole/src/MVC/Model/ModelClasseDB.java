@@ -12,10 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static utilitaires.Utilitaire.choixListe;
+
 public class ModelClasseDB extends DAOClasse {
     protected Connection dbConnect;
     Scanner sc = new Scanner(System.in);
     public DAOSalle daosalle;
+    public DAOEnseignant daoens;
+    public DAOCours daocours;
 
     public ModelClasseDB(){
         dbConnect = DBConnection.getConnection();
@@ -25,6 +29,8 @@ public class ModelClasseDB extends DAOClasse {
             System.exit(1);
         }
         daosalle = new ModelSalleDB();
+        daoens = new ModelEnseignantDB();
+        daocours = new ModelCoursDB();
 
     }
 
@@ -295,8 +301,136 @@ public class ModelClasseDB extends DAOClasse {
     }
 
     @Override
-    public boolean salleCapOK(Salle salle, Classe cl){
-        String query1 = "select capacite from API_salle where id_salle = ?";
+    public boolean salleCapOK(Classe cl){
+        int cap=0;
+        int nb=0;
+        List<Salle> ls = daosalle.getSalles();
+        System.out.println("id salle recherchee : ");
+        int id_salle = sc.nextInt();
+        String query1 = "select capacite from API_SALLE where id_salle = ?";
+        String query2 = "select nbreEleves from API_CLASSE where id_classe = ?";
+        try(PreparedStatement pstm1 = dbConnect.prepareStatement(query1)){
+            pstm1.setInt(1,(id_salle));
+            ResultSet rs = pstm1.executeQuery();
+            while(rs.next()){
+                cap = rs.getInt(3);
+            }
+        }
+        catch(SQLException e){
+            System.err.println("erreur sql : "+e);
+        }
+        try(PreparedStatement pstm2 = dbConnect.prepareStatement(query2)){
+            pstm2.setInt(1,cl.getId_classe());
+            ResultSet rs2 = pstm2.executeQuery();
+            while(rs2.next()){
+                nb = rs2.getInt(5);
+            }
+        }
+        catch(SQLException e){
+            System.err.println("erreur sql : "+e);
+        }
 
+        return cap >= nb;
+    }
+
+
+    @Override
+    public boolean addCours(Classe cl){
+        System.out.println("quel cours souhaitez-vous ajouter ?");
+        int id_cours = choixListe(daocours.getCours());
+        Cours cours = daocours.readCours(id_cours);
+        System.out.println("quel enseignant ?");
+        int id_ens = choixListe(daoens.getEnseignants());
+        System.out.println("nombre d'heures : ");
+        int nb = sc.nextInt();
+        String query1 = "insert into API_INFOS(nbreheures, id_cours, id_salle, id_enseignant, id_classe) values (?, ?, ?, ?, ?)";
+        String query2 = "select id_infos from API_infos where id_cours= ? and id_salle =? and id_classe =?";
+        try (PreparedStatement pstm1 = dbConnect.prepareStatement(query1);
+             PreparedStatement pstm2 = dbConnect.prepareStatement(query2);
+        ) {
+            pstm1.setInt(1, nb);
+            pstm1.setInt(2, id_cours);
+            pstm1.setInt(3, cours.getSalle().getId_salle());
+            pstm1.setInt(4, id_ens);
+            pstm1.setInt(5, cl.getId_classe());
+            int n = pstm1.executeUpdate();
+            if (n == 1) {
+                pstm2.setInt(1, id_cours);
+                pstm2.setInt(2, cours.getSalle().getId_salle());
+                pstm2.setInt(3, cl.getId_classe());
+                ResultSet rs = pstm2.executeQuery();
+                if (rs.next()) {
+                    return true;
+                } else {
+
+                    System.err.println("record introuvable");
+                    return false;
+                }
+            } else return false;
+
+        } catch (SQLException e) {
+            System.err.println("erreur sql :" + e);
+
+            return false;
+        }
+    }
+
+    @Override
+    public boolean modifCoursSalle(Classe cl,Cours cours, Salle salle){
+        int id_salle = salle.getId_salle();
+        int id_classe = cl.getId_classe();
+        int id_cours = cours.getId_cours();
+        String query = "update  API_INFOS set id_salle = ? where id_classe = ? AND id_cours = ?";
+        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1,id_salle);
+            pstm.setInt(2,id_classe);
+            pstm.setInt(3,id_cours);
+            int n = pstm.executeUpdate();
+            if(n!=0) return true;
+            else return false;
+
+        } catch (SQLException e) {
+            System.err.println("erreur sql :" + e);
+            return false;
+        }
+    }
+
+    @Override
+    public boolean modifCoursHeures(Classe cl,Cours cours, int nb){
+        int id_classe = cl.getId_classe();
+        int id_cours = cours.getId_cours();
+        String query = "update  API_INFOS set nbreheures = ? where id_classe = ? AND id_cours = ?";
+        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1,nb);
+            pstm.setInt(2,id_classe);
+            pstm.setInt(3,id_cours);
+            int n = pstm.executeUpdate();
+            if(n!=0) return true;
+            else return false;
+
+        } catch (SQLException e) {
+            System.err.println("erreur sql :" + e);
+            return false;
+        }
+    }
+
+    @Override
+    public boolean modifCoursEns(Classe cl,Cours cours, Enseignant ens){
+        int id_classe = cl.getId_classe();
+        int id_cours = cours.getId_cours();
+        int id_ens = ens.getId_enseignant();
+        String query = "update  API_INFOS set id_enseignant = ? where id_classe = ? AND id_cours = ?";
+        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1,id_ens);
+            pstm.setInt(2,id_classe);
+            pstm.setInt(3,id_cours);
+            int n = pstm.executeUpdate();
+            if(n!=0) return true;
+            else return false;
+
+        } catch (SQLException e) {
+            System.err.println("erreur sql :" + e);
+            return false;
+        }
     }
 }

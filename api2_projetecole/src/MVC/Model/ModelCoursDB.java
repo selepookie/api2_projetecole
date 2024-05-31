@@ -131,7 +131,7 @@ public class ModelCoursDB extends DAOCours {
         }
     }
 
-    // Séraphin m'a aidé pour cette méthode
+    // Séraphin m'a aidé pour cette méthode.
     @Override
     public List<Cours> getCours() {
         List<Cours> lc = new ArrayList<>();

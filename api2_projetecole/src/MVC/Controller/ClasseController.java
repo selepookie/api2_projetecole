@@ -42,8 +42,13 @@ public class ClasseController {
     public List<SalleHeures> listeSalleHeures(Classe classe){ return model.listeSalleHeures(classe); }
 
     public List<CoursHeures> listeCoursHeures(Classe classe){ return model.listeCoursHeures(classe); }
-    public boolean salleCapOK(Salle salle, Classe classe){
-        return model.salleCapOK(salle,classe);
+    public boolean salleCapOK(Classe classe){
+        return model.salleCapOK(classe);
     }
+
+    public boolean addCours(Classe classe){ return model.addCours(classe); }
+    public boolean modifCoursSalle(Classe classe, Cours cours, Salle salle){ return model.modifCoursSalle(classe,cours,salle);}
+    public boolean modifCoursHeures(Classe classe, Cours cours, int nb){ return model.modifCoursHeures(classe, cours, nb); }
+    public boolean modifCoursEns(Classe classe, Cours cours, Enseignant ens) { return model.modifCoursEns(classe, cours, ens); }
 
 }
