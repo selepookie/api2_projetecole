@@ -1,9 +1,7 @@
 package MVC.Model;
 
-import metier.Classe;
-import metier.Enseignant;
-import metier.ListeEnseignantsHeures;
-import metier.Salle;
+import MVC.Controller.SalleController;
+import metier.*;
 import myconnections.DBConnection;
 
 import javax.xml.transform.Result;
@@ -17,6 +15,7 @@ import java.util.Scanner;
 public class ModelClasseDB extends DAOClasse {
     protected Connection dbConnect;
     Scanner sc = new Scanner(System.in);
+    public DAOSalle daosalle;
 
     public ModelClasseDB(){
         dbConnect = DBConnection.getConnection();
@@ -25,6 +24,7 @@ public class ModelClasseDB extends DAOClasse {
 
             System.exit(1);
         }
+        daosalle = new ModelSalleDB();
 
     }
 
@@ -155,7 +155,7 @@ public class ModelClasseDB extends DAOClasse {
         String query = "select nbreHeures from API_INFOS where id_classe = ? ";
         try(PreparedStatement pstm = dbConnect.prepareStatement(query)){
             pstm.setInt(1,classe.getId_classe());
-            ResultSet rs = pstm.executeQuery(query);
+            ResultSet rs = pstm.executeQuery();
             while(rs.next()){
                 nb = nb + rs.getInt(2);
             }
@@ -174,14 +174,14 @@ public class ModelClasseDB extends DAOClasse {
         String query2 = "select * from API_ENSEIGNANT where id_enseignant = ?";
         try(PreparedStatement pstm1 = dbConnect.prepareStatement(query)){
             pstm1.setInt(1,classe.getId_classe());
-            ResultSet rs = pstm1.executeQuery(query);
+            ResultSet rs = pstm1.executeQuery();
             while(rs.next()){
                 int id_ens = rs.getInt(5);
                 int nbh = rs.getInt(2);
                 Enseignant ens = null;
                 try(PreparedStatement pstm2 = dbConnect.prepareStatement(query2)){
                     pstm2.setInt(1,id_ens);
-                    ResultSet rs2 = pstm2.executeQuery(query2);
+                    ResultSet rs2 = pstm2.executeQuery();
                     String matricule=null;
                     String nom=null;
                     String prenom=null;
@@ -213,5 +213,90 @@ public class ModelClasseDB extends DAOClasse {
             return null;
         }
         return leh;
+    }
+
+    @Override
+    public List<SalleHeures> listeSalleHeures(Classe cl){
+        List<SalleHeures> sh = new ArrayList<>();
+        String query = "select id_salle, nbreHeures from API_INFOS where id_classe = ?";
+        String query2 = "select * from API_SALLE where id_salle = ?";
+        try(PreparedStatement pstm1 = dbConnect.prepareStatement(query)){
+            pstm1.setInt(1,cl.getId_classe());
+            ResultSet rs = pstm1.executeQuery();
+            while(rs.next()){
+                int id_salle = rs.getInt(4);
+                int nbh = rs.getInt(2);
+                Salle salle = null;
+                try(PreparedStatement pstm2 = dbConnect.prepareStatement(query2)){
+                    pstm2.setInt(1,id_salle);
+                    ResultSet rs2 = pstm2.executeQuery();
+                    String sigle=null;
+                    int capacite = 0;
+                    if(rs2.next()){
+                        sigle = rs2.getString(2);
+                        capacite = rs2.getInt(3);
+                    }
+                    salle = new Salle(cl.getId_classe(),sigle, capacite);
+                }
+                catch(SQLException e){
+                    System.err.println("erreur sql : "+e);
+                    return null;
+                }
+                SalleHeures shh = new SalleHeures(salle,nbh);
+                sh.add(shh);
+            }
+        }
+        catch(SQLException e){
+            System.err.println("erreur sql : "+e);
+            return null;
+        }
+        return sh;
+    }
+
+    @Override
+    public List<CoursHeures> listeCoursHeures(Classe cl){
+        List<CoursHeures> ch = new ArrayList<>();
+        String query = "select id_cours, nbreHeures from API_INFOS where id_classe = ?";
+        String query2 = "select * from API_COURS where id_salle = ?";
+        try(PreparedStatement pstm1 = dbConnect.prepareStatement(query)){
+            pstm1.setInt(1,cl.getId_classe());
+            ResultSet rs = pstm1.executeQuery();
+            while(rs.next()){
+                int id_cours = rs.getInt(3);
+                int nbh = rs.getInt(2);
+                Cours cours = null;
+                try(PreparedStatement pstm2 = dbConnect.prepareStatement(query2)){
+                    pstm2.setInt(1,id_cours);
+                    ResultSet rs2 = pstm2.executeQuery();
+                    String code=null;
+                    String intitule = null;
+                    int id_salle = 0;
+                    if(rs2.next()){
+                        code = rs2.getString(2);
+                        intitule = rs2.getString(3);
+                        id_salle = rs2.getInt(4);
+                    }
+                    Salle salle = daosalle.readSalle(id_salle);
+                    cours = new Cours(cl.getId_classe(),code, intitule, salle);
+                }
+                catch(SQLException e){
+                    System.err.println("erreur sql : "+e);
+                    return null;
+                }
+                CoursHeures chch = new CoursHeures(cours,nbh);
+                ch.add(chch);
+            }
+        }
+        catch(SQLException e){
+            System.err.println("erreur sql : "+e);
+            return null;
+        }
+        return ch;
+    }
+
+    @Override
+    public boolean salleCapOK(Salle salle, Classe cl){
+        String query1 = "select capacite from API_salle where id_salle = ?";
+
     }
 }

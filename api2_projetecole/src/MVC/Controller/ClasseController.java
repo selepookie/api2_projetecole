@@ -2,8 +2,7 @@ package MVC.Controller;
 
 import MVC.Model.DAOClasse;
 import MVC.View.ClasseAbstractView;
-import metier.Classe;
-import metier.ListeEnseignantsHeures;
+import metier.*;
 
 import java.util.List;
 
@@ -39,5 +38,12 @@ public class ClasseController {
     public int nbreHeuresTot(Classe classe){ return model.nbreHeuresTot(classe);}
 
     public List<ListeEnseignantsHeures> listeEnsHeures(Classe classe) { return model.listeEnsHeures(classe);}
+
+    public List<SalleHeures> listeSalleHeures(Classe classe){ return model.listeSalleHeures(classe); }
+
+    public List<CoursHeures> listeCoursHeures(Classe classe){ return model.listeCoursHeures(classe); }
+    public boolean salleCapOK(Salle salle, Classe classe){
+        return model.salleCapOK(salle,classe);
+    }
 
 }
