@@ -50,5 +50,7 @@ public class ClasseController {
     public boolean modifCoursSalle(Classe classe, Cours cours, Salle salle){ return model.modifCoursSalle(classe,cours,salle);}
     public boolean modifCoursHeures(Classe classe, Cours cours, int nb){ return model.modifCoursHeures(classe, cours, nb); }
     public boolean modifCoursEns(Classe classe, Cours cours, Enseignant ens) { return model.modifCoursEns(classe, cours, ens); }
+    public boolean supprCours(Classe classe, Cours cours){ return model.supprCours(classe, cours);};
+
 
 }

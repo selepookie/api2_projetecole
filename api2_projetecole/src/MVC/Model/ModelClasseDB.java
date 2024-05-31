@@ -433,4 +433,20 @@ public class ModelClasseDB extends DAOClasse {
             return false;
         }
     }
+
+    @Override
+    public boolean supprCours(Classe cl, Cours cours){
+        String query = "DELETE FROM  API_INFOS where  id_classe = ? AND id_cours = ?";
+        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1,cl.getId_classe());
+            pstm.setInt(2,cours.getId_cours());
+            int n = pstm.executeUpdate();
+            if(n!=0) return true;
+            else return false;
+
+        } catch (SQLException e) {
+            System.err.println("erreur sql :" + e);
+            return false;
+        }
+    }
 }

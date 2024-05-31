@@ -1,5 +1,7 @@
 package MVC.View;
 
+import metier.Classe;
+import metier.Cours;
 import metier.Salle;
 
 import java.util.Arrays;
@@ -43,12 +45,29 @@ public class SalleViewConsole extends SalleAbstractView{
         } while (true);
     }
 
+    private void special(Salle salle) {
+
+        do {
+            int ch = choixListe(Arrays.asList("liste des cours qui ont une certaine salle par defaut","fin"));
+            switch (ch) {
+                case 1:
+                    coursSalleDefaut(salle);
+                    break;
+                case 2 : return;
+            }
+        } while (true);
+    }
+
+    public void coursSalleDefaut(Salle salle){
+        List<Cours> lc = salleController.coursSalleDefaut(salle);
+        if(lc.isEmpty()) System.out.println("liste nulle");
+        else System.out.println(lc);
+    }
+
     @Override
     public void affList(List lc) {
         affList(lc);
     }
-
-
 
     private void modifier() {
         int nl = choixElt(lc) - 1;
@@ -67,7 +86,7 @@ public class SalleViewConsole extends SalleAbstractView{
         if(sl==null) affMsg("recherche infructueuse");
         else {
             affMsg(sl.toString());
-            // special(cl);
+            special(sl);
         }
     }
 

@@ -52,7 +52,7 @@ public class ClasseViewConsole extends ClasseAbstractView {
         do {
 
             int ch = choixListe(Arrays.asList("nombre d'heures totales", "liste enseignants et heures", "liste salles et heures", "liste cours et heures", "capacité d'une salle ok",
-                    "ajouter un cours", "modifier la salle d'un cours", "modifier le nombre d'heures d'un cours", "modifier l'enseignant d'un cours", "fin"));
+                    "ajouter un cours", "modifier la salle d'un cours", "modifier le nombre d'heures d'un cours", "modifier l'enseignant d'un cours","supprimer un cours", "fin"));
             switch (ch) {
                 case 1:
                     nbreHeuresTot(cl);
@@ -81,6 +81,9 @@ public class ClasseViewConsole extends ClasseAbstractView {
                 case 9:
                     modifCoursEns(cl);
                     break;
+                case 10 : supprCours(cl);
+                    break;
+                case 11 : return;
             }
         } while (true);
     }
@@ -155,6 +158,14 @@ public class ClasseViewConsole extends ClasseAbstractView {
         boolean ok = classeController.modifCoursEns(cl, c, ens);
         if (ok) affMsg("mise à jour effectuée");
         else affMsg("mise à jour infructueuse");
+    }
+
+    public void supprCours(Classe cl){
+        System.out.println("suppression d'une ligne");
+        Cours cr = cv.selectionner();
+        boolean ok = classeController.supprCours(cl,cr);
+        if(ok) affMsg("ligne supprimée");
+        else affMsg("ligne non supprimée");
     }
 
     @Override

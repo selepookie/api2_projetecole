@@ -22,4 +22,5 @@ public abstract class DAOClasse extends Subject {
     public abstract boolean modifCoursSalle(Classe classe, Cours cours, Salle salle);
     public abstract boolean modifCoursHeures(Classe classe, Cours cours, int nb);
     public abstract boolean modifCoursEns(Classe classe, Cours cours, Enseignant ens);
+    public abstract boolean supprCours(Classe classe, Cours cours);
 }

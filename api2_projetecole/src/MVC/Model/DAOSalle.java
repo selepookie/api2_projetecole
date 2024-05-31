@@ -1,6 +1,7 @@
 package MVC.Model;
 
 import MVC.Observer.Subject;
+import metier.Cours;
 import metier.Salle;
 import myconnections.DBConnection;
 
@@ -20,4 +21,5 @@ public abstract class  DAOSalle extends Subject {
     public abstract Salle readSalle(int id_salle);
 
     public abstract List<Salle> getSalles();
+    public abstract List<Cours> coursSalleDefaut(Salle salle);
 }

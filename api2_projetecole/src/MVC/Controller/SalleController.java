@@ -3,7 +3,7 @@ package MVC.Controller;
 
 import MVC.Model.DAOSalle;
 import MVC.View.SalleAbstractView;
-import metier.Salle;
+import metier.*;
 
 import java.util.List;
 
@@ -34,4 +34,5 @@ public class SalleController {
     public Salle search(int id_salle) {
         return model.readSalle(id_salle);
     }
+    public List<Cours> coursSalleDefaut(Salle salle){ return model.coursSalleDefaut(salle); }
 }

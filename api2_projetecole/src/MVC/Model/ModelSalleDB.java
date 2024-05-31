@@ -1,5 +1,7 @@
 package MVC.Model;
 
+import metier.Cours;
+import metier.CoursHeures;
 import metier.Salle;
 import myconnections.DBConnection;
 
@@ -8,10 +10,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModelSalleDB extends DAOSalle{
+public class ModelSalleDB extends DAOSalle {
     protected Connection dbConnect;
 
-    public ModelSalleDB(){
+    public ModelSalleDB() {
         dbConnect = DBConnection.getConnection();
         if (dbConnect == null) {
             System.err.println("erreur de connexion");
@@ -25,31 +27,29 @@ public class ModelSalleDB extends DAOSalle{
     public Salle addSalle(Salle salle) {
         String query1 = "insert into API_SALLE(sigle,capacite) values(?,?)";
         String query2 = "select id_salle from API_SALLE where sigle= ?";
-        try(PreparedStatement pstm1= dbConnect.prepareStatement(query1);
-            PreparedStatement pstm2= dbConnect.prepareStatement(query2);
-        ){
-            pstm1.setString(1,salle.getSigle());
-            pstm1.setInt(2,salle.getCapacite());
+        try (PreparedStatement pstm1 = dbConnect.prepareStatement(query1);
+             PreparedStatement pstm2 = dbConnect.prepareStatement(query2);
+        ) {
+            pstm1.setString(1, salle.getSigle());
+            pstm1.setInt(2, salle.getCapacite());
             int n = pstm1.executeUpdate();
-            if(n==1){
-                pstm2.setString(1,salle.getSigle());
-                ResultSet rs= pstm2.executeQuery();
-                if(rs.next()){
-                    int id_salle= rs.getInt(1);
+            if (n == 1) {
+                pstm2.setString(1, salle.getSigle());
+                ResultSet rs = pstm2.executeQuery();
+                if (rs.next()) {
+                    int id_salle = rs.getInt(1);
                     salle.setId_salle(id_salle);
                     notifyObservers();
                     return salle;
-                }
-                else {
+                } else {
 
                     System.err.println("record introuvable");
                     return null;
                 }
-            }
-            else return null;
+            } else return null;
 
         } catch (SQLException e) {
-            System.err.println("erreur sql :"+e);
+            System.err.println("erreur sql :" + e);
 
             return null;
         }
@@ -58,15 +58,15 @@ public class ModelSalleDB extends DAOSalle{
     @Override
     public boolean removeSalle(Salle salle) {
         String query = "delete from API_SALLE where id_salle = ?";
-        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
-            pstm.setInt(1,salle.getId_salle());
+        try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1, salle.getId_salle());
             int n = pstm.executeUpdate();
             notifyObservers();
-            if(n!=0) return true;
+            if (n != 0) return true;
             else return false;
 
         } catch (SQLException e) {
-            System.err.println("erreur sql :"+e);
+            System.err.println("erreur sql :" + e);
 
             return false;
         }
@@ -75,12 +75,12 @@ public class ModelSalleDB extends DAOSalle{
     @Override
     public Salle updateSalle(Salle salle) {
         String query = "update API_SALLE set sigle =?,capacite=?where id_salle = ?";
-        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
-            pstm.setString(1,salle.getSigle());
-            pstm.setInt(2,salle.getCapacite());
+        try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setString(1, salle.getSigle());
+            pstm.setInt(2, salle.getCapacite());
             int n = pstm.executeUpdate();
             notifyObservers();
-            if(n!=0) return readSalle(salle.getId_salle());
+            if (n != 0) return readSalle(salle.getId_salle());
             else return null;
 
         } catch (SQLException e) {
@@ -93,21 +93,20 @@ public class ModelSalleDB extends DAOSalle{
     @Override
     public Salle readSalle(int id_salle) {
         String query = "select * from API_SALLE where id_salle = ?";
-        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
-            pstm.setInt(1,id_salle);
+        try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1, id_salle);
             ResultSet rs = pstm.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 String sigle = rs.getString(2);
                 int capacite = rs.getInt(3);
-                Salle sl = new Salle(id_salle,sigle,capacite);
+                Salle sl = new Salle(id_salle, sigle, capacite);
                 return sl;
 
-            }
-            else {
+            } else {
                 return null;
             }
         } catch (SQLException e) {
-            System.err.println("erreur sql :"+e);
+            System.err.println("erreur sql :" + e);
 
             return null;
         }
@@ -117,19 +116,19 @@ public class ModelSalleDB extends DAOSalle{
     @Override
     public List<Salle> getSalles() {
         List<Salle> lc = new ArrayList<>();
-        String query="select * from API_SALLE";
-        try(Statement stm = dbConnect.createStatement()) {
+        String query = "select * from API_SALLE";
+        try (Statement stm = dbConnect.createStatement()) {
             ResultSet rs = stm.executeQuery(query);
-            while(rs.next()){
+            while (rs.next()) {
                 int id_salle = rs.getInt(1);
                 String sigle = rs.getString(2);
                 int capacite = rs.getInt(3);
-                Salle sl = new Salle(id_salle,sigle,capacite);
+                Salle sl = new Salle(id_salle, sigle, capacite);
                 lc.add(sl);
             }
             return lc;
         } catch (SQLException e) {
-            System.err.println("erreur sql :"+e);
+            System.err.println("erreur sql :" + e);
 
             return null;
         }
@@ -138,5 +137,26 @@ public class ModelSalleDB extends DAOSalle{
     @Override
     public List getNotification() {
         return getSalles();
+    }
+
+    @Override
+    public List<Cours> coursSalleDefaut(Salle salle) {
+        List<Cours> lc = new ArrayList<>();
+        String query = "select * from API_CLASSE where id_salle = ?";
+        try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1, salle.getId_salle());
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                int id_cours = rs.getInt(1);
+                String code = rs.getString(2);
+                String intitule = rs.getString(3);
+                Cours cours = new Cours(id_cours, code, intitule, salle);
+                lc.add(cours);
+            }
+        } catch (SQLException e) {
+            System.err.println("erreur sql : " + e);
+            return null;
+        }
+        return lc;
     }
 }
