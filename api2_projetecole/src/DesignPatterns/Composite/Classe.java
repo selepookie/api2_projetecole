@@ -264,7 +264,7 @@ public class Classe extends Element{
     public void addCours(int nbreHeures, Cours cours){ // heure et cours seulement
         boolean ok=false;
         for(Infos infos : infos){
-            
+
             if(infos.getCours().getCode().equals(cours.getCode())) {
                 ok=true;
             }

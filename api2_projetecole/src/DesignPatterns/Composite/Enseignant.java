@@ -1,6 +1,6 @@
 package DesignPatterns.Composite;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * classe métier de gestion d'un enseignant
@@ -43,7 +43,7 @@ public class Enseignant {
     /**
      * date d'engagement de l'enseignant
      */
-    protected Date dateEngag;
+    protected LocalDate dateEngag;
     /**
      * constructeur par défaut
      */
@@ -59,8 +59,8 @@ public class Enseignant {
      * @param salaireMensu salaire mensuel de l'enseignant
      * @param dateEngag date d'engagement de l'enseignant
      */
-    public Enseignant(int id_enseignant,String matricule, String nom, String prenom, String tel, int chargeSem, double salaireMensu, Date dateEngag) {
-        this.id_enseignant = i++;
+    public Enseignant(int id_enseignant, String matricule, String nom, String prenom, String tel, int chargeSem, double salaireMensu, LocalDate dateEngag) {
+        this.id_enseignant = id_enseignant;
         this.matricule = matricule;
         this.nom = nom;
         this.prenom = prenom;
@@ -172,7 +172,7 @@ public class Enseignant {
      * getter dateEngag
      * @return date d'engagement
      */
-    public Date getDateEngag() {
+    public LocalDate getDateEngag() {
         return dateEngag;
     }
 
@@ -180,7 +180,21 @@ public class Enseignant {
      * setter dateEngag
      * @param dateEngag définit la date d'engagement
      */
-    public void setDateEngag(Date dateEngag) {
+    public void setDateEngag(LocalDate dateEngag) {
         this.dateEngag = dateEngag;
+    }
+
+    @Override
+    public String toString() {
+        return "Enseignant{" +
+                "id_enseignant=" + id_enseignant +
+                ", matricule='" + matricule + '\'' +
+                ", nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", tel='" + tel + '\'' +
+                ", chargeSem=" + chargeSem +
+                ", salaireMensu=" + salaireMensu +
+                ", dateEngag=" + dateEngag +
+                '}';
     }
 }

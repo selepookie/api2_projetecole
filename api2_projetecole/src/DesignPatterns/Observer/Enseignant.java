@@ -1,5 +1,6 @@
 package DesignPatterns.Observer;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -43,7 +44,7 @@ public class Enseignant extends Observer {
     /**
      * date d'engagement de l'enseignant
      */
-    protected Date dateEngag;
+    protected LocalDate dateEngag;
     /**
      * constructeur par défaut
      */
@@ -59,7 +60,7 @@ public class Enseignant extends Observer {
      * @param salaireMensu salaire mensuel de l'enseignant
      * @param dateEngag date d'engagement de l'enseignant
      */
-    public Enseignant(int id_enseignant,String matricule, String nom, String prenom, String tel, int chargeSem, double salaireMensu, Date dateEngag) {
+    public Enseignant(int id_enseignant,String matricule, String nom, String prenom, String tel, int chargeSem, double salaireMensu, LocalDate dateEngag) {
         this.id_enseignant = i++;
         this.matricule = matricule;
         this.nom = nom;
@@ -172,7 +173,7 @@ public class Enseignant extends Observer {
      * getter dateEngag
      * @return date d'engagement
      */
-    public Date getDateEngag() {
+    public LocalDate getDateEngag() {
         return dateEngag;
     }
 
@@ -180,12 +181,12 @@ public class Enseignant extends Observer {
      * setter dateEngag
      * @param dateEngag définit la date d'engagement
      */
-    public void setDateEngag(Date dateEngag) {
+    public void setDateEngag(LocalDate dateEngag) {
         this.dateEngag = dateEngag;
     }
 
     @Override
     public void update(String msg) {
-        System.out.println(prenom + nom + "a reçu le message : "+ msg);
+        System.out.println(prenom + " " + nom + " " + "a reçu le message : "+ msg);
     }
 }

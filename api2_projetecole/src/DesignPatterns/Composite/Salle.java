@@ -1,7 +1,10 @@
 package DesignPatterns.Composite;
 
+import metier.Cours;
+
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * classe métier de gestion d'une salle de cours
  * @author Selena D'Urbano
@@ -27,7 +30,7 @@ public class Salle {
     /**
      * liste des cours ayant lieu dans cette salle
      */
-    protected List<Cours> cours = new ArrayList<>();
+    protected List<metier.Cours> cours = new ArrayList<>();
     /**
      * constructeur par défaut
      */
@@ -36,12 +39,13 @@ public class Salle {
      * constructeur paramétré
      * @param sigle sigle
      * @param capacite capacité de la salle
-     * @param id_salle identifiant unique de la salle auto-incrémenté par i
+     * @param id_salle identifiant unique de la salle
      */
-    public Salle(String sigle, int capacite, int id_salle) {
-        this.sigle = sigle;
-        this.capacite = capacite;
-        this.id_salle=i++;
+
+    public Salle(int id_salle, String sigle, int capacite){
+        this.id_salle=id_salle;
+        this.sigle=sigle;
+        this.capacite=capacite;
     }
     /**
      * getter sigle
@@ -75,14 +79,14 @@ public class Salle {
      * getter cours
      * @return liste des cours ayant lieu dans cette salle
      */
-    public List<Cours> getCours() {
+    public List<metier.Cours> getCours() {
         return cours;
     }
     /**
      * setter cours
      * @param cours nouvelle liste de cours
      */
-    public void setCours(List<Cours> cours) {
+    public void setCours(List<metier.Cours> cours) {
         this.cours = cours;
     }
     /**
@@ -100,8 +104,8 @@ public class Salle {
         this.id_salle = id_salle;
     }
 
-    public List<Cours> coursSalleDefaut(){
-        List<Cours> listecours = new ArrayList<>();
+    public List<metier.Cours> coursSalleDefaut(){
+        List<metier.Cours> listecours = new ArrayList<>();
         int i=0;
         for(Cours cours : cours){
             if(cours.getSalle().equals(this)){
@@ -110,5 +114,15 @@ public class Salle {
             i++;
         }
         return listecours;
+    }
+
+    @Override
+    public String toString() {
+        return "Salle{" +
+                "id_salle=" + id_salle +
+                ", sigle='" + sigle + '\'' +
+                ", capacite=" + capacite +
+                ", cours=" + cours +
+                '}';
     }
 }

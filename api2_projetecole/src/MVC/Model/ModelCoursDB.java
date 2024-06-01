@@ -25,8 +25,8 @@ public class ModelCoursDB extends DAOCours {
 
     @Override
     public Cours addCours(Cours cours) {
-        String query1 = "insert into API_COURS(code, intitule, salle) values(?,?,?,?,?,?,?)";
-        String query2 = "select id_cours from API_cours where code= ? and intitule =? and salle =?";
+        String query1 = "insert into API_COURS(code, intitule, id_salle) values(?,?,?)";
+        String query2 = "select id_cours from API_cours where code= ? and intitule =? and id_salle =?";
         try (PreparedStatement pstm1 = dbConnect.prepareStatement(query1);
              PreparedStatement pstm2 = dbConnect.prepareStatement(query2);
         ) {
@@ -77,11 +77,12 @@ public class ModelCoursDB extends DAOCours {
 
     @Override
     public Cours updateCours(Cours cours) {
-        String query = "update API_COURS set code =?,intitule=?,salle=? where id_cours = ?";
+        String query = "update API_COURS set code =?,intitule=?,id_salle=? where id_cours = ?";
         try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
             pstm.setString(1, cours.getCode());
             pstm.setString(2, cours.getIntitule());
             pstm.setInt(3, cours.getSalle().getId_salle());
+            pstm.setInt(4,cours.getId_cours());
             int n = pstm.executeUpdate();
             notifyObservers();
             if (n != 0) return readCours(cours.getId_cours());

@@ -92,6 +92,7 @@ public class ModelEnseignantDB extends DAOEnseignant {
             LocalDate date = enseignant.getDateEngag();
             java.sql.Date datee = java.sql.Date.valueOf(date);
             pstm.setDate(7, datee);
+            pstm.setInt(8,enseignant.getId_enseignant());
             int n = pstm.executeUpdate();
             notifyObservers();
             if(n!=0) return readEnseignant(enseignant.getId_enseignant());
@@ -139,14 +140,14 @@ public class ModelEnseignantDB extends DAOEnseignant {
         try(Statement stm = dbConnect.createStatement()) {
             ResultSet rs = stm.executeQuery(query);
             while(rs.next()){
-                int id_enseignant = rs.getInt(1);
-                String matricule = rs.getString(2);
-                String nom = rs.getString(3);
-                String prenom = rs.getString(4);
-                String tel = rs.getString(5);
-                int chargeSem = rs.getInt(6);
-                double salairemensu = rs.getDouble(7);
-                LocalDate dateengag = rs.getDate(8).toLocalDate();
+                int id_enseignant = rs.getInt("id_enseignant");
+                String matricule = rs.getString("matricule");
+                String nom = rs.getString("nom");
+                String prenom = rs.getString("prenom");
+                String tel = rs.getString("tel");
+                int chargeSem = rs.getInt("chargesem");
+                double salairemensu = rs.getDouble("salairemensu");
+                LocalDate dateengag = rs.getDate("dateengag").toLocalDate();
 
                 Enseignant ens = new Enseignant(id_enseignant, matricule, nom, prenom, tel, chargeSem, salairemensu, dateengag);
                 lc.add(ens);

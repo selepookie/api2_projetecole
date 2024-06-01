@@ -61,7 +61,7 @@ public class EnseignantViewConsole extends EnseignantAbstractView{
         String prenom = modifyIfNotBlank("prenom", enseignant.getPrenom());
         String tel = modifyIfNotBlank("tel", enseignant.getTel());
         int chargeSem = parseInt(modifyIfNotBlank("chargesem","" + enseignant.getChargeSem()));
-        double salaireMensu = Double.parseDouble(modifyIfNotBlank("chargesem","" + enseignant.getChargeSem()));
+        double salaireMensu = Double.parseDouble(modifyIfNotBlank("salairemensu","" + enseignant.getChargeSem()));
         LocalDate date = enseignant.getDateEngag();
         Enseignant ens =enseignantController.update(new Enseignant(enseignant.getId_enseignant(), matricule, nom, prenom, tel, chargeSem, salaireMensu, date));
         if(ens==null) affMsg("mise à jour infructueuse");

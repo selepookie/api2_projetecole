@@ -9,20 +9,20 @@ public class ListeEnseignantsHeures {
     /**
      * enseignant
      */
-        private Enseignant enseignant;
+    private Enseignant enseignant;
     /**
      * nombre d'heures
      */
-        private int nbreHeures;
+    private int nbreHeures;
     /**
      * constructeur paramétré
      * @param enseignant enseignant
      * @param nbreHeures nombre d'heures
      */
-        public ListeEnseignantsHeures(Enseignant enseignant, int nbreHeures) {
-            this.enseignant = enseignant;
-            this.nbreHeures = nbreHeures;
-        }
+    public ListeEnseignantsHeures(Enseignant enseignant, int nbreHeures) {
+        this.enseignant = enseignant;
+        this.nbreHeures = nbreHeures;
+    }
     /**
      * getter enseignant
      * @return enseignant actuel

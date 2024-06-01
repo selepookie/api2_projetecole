@@ -1,5 +1,7 @@
 package DesignPatterns.Composite;
 
+import metier.Salle;
+
 /**
  * classe métier de gestion d'un cours
  * @author Selena D'Urbano
@@ -25,7 +27,7 @@ public class Cours {
     /**
      * salle du cours
      */
-    protected Salle salle;
+    protected metier.Salle salle;
     /**
      * constructeur par défaut
      */
@@ -37,11 +39,16 @@ public class Cours {
      * @param salle salle du cours
      * @param id_cours identifiant unique du cours auto-incrémenté par le i
      */
-    public Cours(String code, String intitule, Salle salle, int id_cours) {
+    public Cours(int id_cours, String code, String intitule, metier.Salle salle) {
         this.code = code;
         this.intitule = intitule;
         this.salle=salle;
         this.id_cours=i++;
+    }
+    public Cours(String code, String intitule, metier.Salle salle){
+        this.code = code;
+        this.intitule = intitule;
+        this.salle = salle;
     }
     /**
      * getter code
@@ -75,7 +82,7 @@ public class Cours {
      * getter salle
      * @return salle actuelle
      */
-    public Salle getSalle() {
+    public metier.Salle getSalle() {
         return salle;
     }
     /**
@@ -98,5 +105,15 @@ public class Cours {
      */
     public void setId_cours(int id_cours) {
         this.id_cours = id_cours;
+    }
+
+    @Override
+    public String toString() {
+        return "Cours{" +
+                "id_cours=" + id_cours +
+                ", code='" + code + '\'' +
+                ", intitule='" + intitule + '\'' +
+                ", salle=" + salle +
+                '}';
     }
 }
