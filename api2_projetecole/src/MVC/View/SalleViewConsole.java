@@ -66,7 +66,7 @@ public class SalleViewConsole extends SalleAbstractView{
 
     @Override
     public void affList(List lc) {
-        affList(lc);
+        affListe(lc);
     }
 
     private void modifier() {

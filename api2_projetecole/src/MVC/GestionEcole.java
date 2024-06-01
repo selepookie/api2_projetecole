@@ -30,7 +30,7 @@ public class GestionEcole {
         clm = new ModelClasseDB();
         com = new ModelCoursDB();
         em=new ModelEnseignantDB();
-        sm = new ModelSalleDB();
+        sm = new ModelSalleHyb();
 
         cv = new ClasseViewConsole();
         cov = new CoursViewConsole();
