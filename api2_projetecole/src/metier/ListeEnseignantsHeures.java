@@ -52,4 +52,12 @@ public class ListeEnseignantsHeures {
     public void setNbreHeures(int nbreHeures) {
         this.nbreHeures = nbreHeures;
     }
+
+    @Override
+    public String toString() {
+        return "ListeEnseignantsHeures{" +
+                "enseignant=" + enseignant +
+                ", nbreHeures=" + nbreHeures +
+                '}';
+    }
 }

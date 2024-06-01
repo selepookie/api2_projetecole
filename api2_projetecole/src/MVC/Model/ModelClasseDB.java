@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static utilitaires.Utilitaire.affListe;
 import static utilitaires.Utilitaire.choixListe;
 
 public class ModelClasseDB extends DAOClasse {
@@ -162,8 +163,8 @@ public class ModelClasseDB extends DAOClasse {
         try(PreparedStatement pstm = dbConnect.prepareStatement(query)){
             pstm.setInt(1,classe.getId_classe());
             ResultSet rs = pstm.executeQuery();
-            while(rs.next()){
-                nb = nb + rs.getInt(2);
+            while (rs.next()) {
+                nb += rs.getInt("nbreHeures");
             }
             return nb;
         }
@@ -182,8 +183,8 @@ public class ModelClasseDB extends DAOClasse {
             pstm1.setInt(1,classe.getId_classe());
             ResultSet rs = pstm1.executeQuery();
             while(rs.next()){
-                int id_ens = rs.getInt(5);
-                int nbh = rs.getInt(2);
+                int id_ens = rs.getInt("id_enseignant");
+                int nbh = rs.getInt("nbreheures");
                 Enseignant ens = null;
                 try(PreparedStatement pstm2 = dbConnect.prepareStatement(query2)){
                     pstm2.setInt(1,id_ens);
@@ -196,13 +197,13 @@ public class ModelClasseDB extends DAOClasse {
                     double salairemensu=0;
                     LocalDate dateengag = null;
                     if(rs2.next()){
-                        matricule = rs2.getString(2);
-                        nom = rs2.getString(3);
-                        prenom = rs2.getString(4);
-                        tel = rs2.getString(5);
-                        chargesem = rs2.getInt(6);
-                        salairemensu = rs2.getDouble(7);
-                        dateengag = rs2.getDate(8).toLocalDate();
+                        matricule = rs2.getString("matricule");
+                        nom = rs2.getString("nom");
+                        prenom = rs2.getString("prenom");
+                        tel = rs2.getString("tel");
+                        chargesem = rs2.getInt("chargesem");
+                        salairemensu = rs2.getDouble("salairemensu");
+                        dateengag = rs2.getDate("dateengag").toLocalDate();
                     }
                     ens = new Enseignant(id_ens, matricule, nom,prenom,tel,chargesem,salairemensu,dateengag);
                 }
@@ -216,7 +217,7 @@ public class ModelClasseDB extends DAOClasse {
         }
         catch(SQLException e){
             System.err.println("erreur sql : "+e);
-            return null;
+            return leh;
         }
         return leh;
     }
@@ -230,8 +231,8 @@ public class ModelClasseDB extends DAOClasse {
             pstm1.setInt(1,cl.getId_classe());
             ResultSet rs = pstm1.executeQuery();
             while(rs.next()){
-                int id_salle = rs.getInt(4);
-                int nbh = rs.getInt(2);
+                int id_salle = rs.getInt("id_salle");
+                int nbh = rs.getInt("nbreheures");
                 Salle salle = null;
                 try(PreparedStatement pstm2 = dbConnect.prepareStatement(query2)){
                     pstm2.setInt(1,id_salle);
@@ -254,7 +255,7 @@ public class ModelClasseDB extends DAOClasse {
         }
         catch(SQLException e){
             System.err.println("erreur sql : "+e);
-            return null;
+            return sh;
         }
         return sh;
     }
@@ -268,8 +269,8 @@ public class ModelClasseDB extends DAOClasse {
             pstm1.setInt(1,cl.getId_classe());
             ResultSet rs = pstm1.executeQuery();
             while(rs.next()){
-                int id_cours = rs.getInt(3);
-                int nbh = rs.getInt(2);
+                int id_cours = rs.getInt("id_cours");
+                int nbh = rs.getInt("nbreheures");
                 Cours cours = null;
                 try(PreparedStatement pstm2 = dbConnect.prepareStatement(query2)){
                     pstm2.setInt(1,id_cours);
@@ -278,9 +279,9 @@ public class ModelClasseDB extends DAOClasse {
                     String intitule = null;
                     int id_salle = 0;
                     if(rs2.next()){
-                        code = rs2.getString(2);
-                        intitule = rs2.getString(3);
-                        id_salle = rs2.getInt(4);
+                        code = rs2.getString("code");
+                        intitule = rs2.getString("intitule");
+                        id_salle = rs2.getInt("id_salle");
                     }
                     Salle salle = daosalle.readSalle(id_salle);
                     cours = new Cours(cl.getId_classe(),code, intitule, salle);
@@ -295,7 +296,7 @@ public class ModelClasseDB extends DAOClasse {
         }
         catch(SQLException e){
             System.err.println("erreur sql : "+e);
-            return null;
+            return ch;
         }
         return ch;
     }
@@ -305,6 +306,7 @@ public class ModelClasseDB extends DAOClasse {
         int cap=0;
         int nb=0;
         List<Salle> ls = daosalle.getSalles();
+        affListe(ls);
         System.out.println("id salle recherchee : ");
         int id_salle = sc.nextInt();
         String query1 = "select capacite from API_SALLE where id_salle = ?";
@@ -313,7 +315,7 @@ public class ModelClasseDB extends DAOClasse {
             pstm1.setInt(1,(id_salle));
             ResultSet rs = pstm1.executeQuery();
             while(rs.next()){
-                cap = rs.getInt(3);
+                cap = rs.getInt("capacite");
             }
         }
         catch(SQLException e){
@@ -323,7 +325,7 @@ public class ModelClasseDB extends DAOClasse {
             pstm2.setInt(1,cl.getId_classe());
             ResultSet rs2 = pstm2.executeQuery();
             while(rs2.next()){
-                nb = rs2.getInt(5);
+                nb = rs2.getInt("nbreeleves");
             }
         }
         catch(SQLException e){

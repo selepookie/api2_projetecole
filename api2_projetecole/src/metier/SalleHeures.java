@@ -55,4 +55,12 @@ public class SalleHeures {
      * constructeur par défaut
      */
     public SalleHeures(){}
+
+    @Override
+    public String toString() {
+        return "SalleHeures{" +
+                "salle=" + salle +
+                ", nbreHeures=" + nbreHeures +
+                '}';
+    }
 }

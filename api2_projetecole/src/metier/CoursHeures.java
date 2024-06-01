@@ -55,4 +55,12 @@ public class CoursHeures {
         this.cours = cours;
         NbreHeures = nbreHeures;
     }
+
+    @Override
+    public String toString() {
+        return "CoursHeures{" +
+                "cours=" + cours +
+                ", NbreHeures=" + NbreHeures +
+                '}';
+    }
 }

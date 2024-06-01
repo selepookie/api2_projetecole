@@ -49,7 +49,7 @@ public class EnseignantViewConsole extends EnseignantAbstractView{
     }
 
     @Override
-    public void affListe(List l) {
+    public void affList(List l) {
         affListe(l);
     }
 
