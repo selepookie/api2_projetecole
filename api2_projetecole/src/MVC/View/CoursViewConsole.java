@@ -23,9 +23,6 @@ public class CoursViewConsole extends CoursAbstractView{
     private Scanner sc = new Scanner(System.in);
     private SalleController salleController;
 
-    public CoursViewConsole(){
-        this.salleController=new SalleController(new ModelSalleDB(), new SalleViewConsole());
-    }
 
     @Override
     public void affMsg(String msg) {
@@ -97,9 +94,8 @@ public class CoursViewConsole extends CoursAbstractView{
         String code = sc.nextLine();
         System.out.print("intitule : ");
         String intitule = sc.nextLine();
-        System.out.print("id salle : ");
-        int id_salle = parseInt(sc.nextLine());
-        Salle salle = salleController.search(id_salle);
+        System.out.print("salle :");
+        Salle salle = sv.selectionner();
         Cours cl = coursController.addCours(new Cours(0, code, intitule, salle));
         if(cl!=null) affMsg("création de :"+cl);
         else affMsg("erreur de création");

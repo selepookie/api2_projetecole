@@ -41,7 +41,7 @@ public class Cours {
         this.code = code;
         this.intitule = intitule;
         this.salle=salle;
-        this.id_cours=i++;
+        this.id_cours=id_cours;
     }
     public Cours(String code, String intitule, Salle salle){
         this.code = code;

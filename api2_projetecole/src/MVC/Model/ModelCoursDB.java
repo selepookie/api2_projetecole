@@ -4,6 +4,7 @@ import metier.Cours;
 import metier.Salle;
 import myconnections.DBConnection;
 
+import javax.swing.plaf.nimbus.State;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDate;
@@ -117,7 +118,7 @@ public class ModelCoursDB extends DAOCours {
                         capacite = rs2.getInt(3);
                     }
                 } catch (SQLException e) {
-                    System.err.println("Erreur SQL dans la récupération de la salle: " + e.getMessage());
+                    System.err.println("erreur sql " + e.getMessage());
                     return null;
                 }
                 Salle salle = new Salle(id_salle, sigle, capacite);
@@ -127,12 +128,12 @@ public class ModelCoursDB extends DAOCours {
                 return null;
             }
         } catch (SQLException e) {
-            System.err.println("Erreur SQL dans la récupération du cours: " + e.getMessage());
+            System.err.println("Erreur$ " + e.getMessage());
             return null;
         }
     }
 
-    // Séraphin m'a aidé pour cette méthode.
+    // Séraphin m'a aidé pour cette méthode (pour récupérer la salle uniquement car j'avais du mal, je m'en suis servie a d'autres endroits)
     @Override
     public List<Cours> getCours() {
         List<Cours> lc = new ArrayList<>();
@@ -141,9 +142,9 @@ public class ModelCoursDB extends DAOCours {
             ResultSet rs = stm.executeQuery(query);
             while (rs.next()) {
                 int id_cours = rs.getInt(1);
-                String code = rs.getString(2);
-                String intitule = rs.getString(3);
-                int id_salle = rs.getInt(4);
+                String code = rs.getString("code");
+                String intitule = rs.getString("intitule");
+                int id_salle = rs.getInt("id_salle");
                 Salle salle = daoSalle.readSalle(id_salle);
                 Cours cl = new Cours(id_cours, code, intitule, salle);
                 lc.add(cl);

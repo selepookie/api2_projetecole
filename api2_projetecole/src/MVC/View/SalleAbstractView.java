@@ -27,6 +27,5 @@ public abstract class SalleAbstractView implements Observer {
     @Override
     public void update(List lc) {
         this.lc = lc;
-        affList(lc);
     }
 }

@@ -49,8 +49,8 @@ public class EnseignantViewConsole extends EnseignantAbstractView{
     }
 
     @Override
-    public void affList(List l) {
-        affListe(l);
+    public void affList(List lc) {
+        affListe(lc);
     }
 
     private void modifier() {
@@ -117,7 +117,7 @@ public class EnseignantViewConsole extends EnseignantAbstractView{
     public Enseignant selectionner() {
         update(enseignantController.getAll());
         int nl = choixListe(lc);
-        Enseignant ens = lc.get(nl - 1);
-        return ens;
+        Enseignant cl = lc.get(nl - 1);
+        return cl;
     }
 }

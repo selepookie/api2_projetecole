@@ -1,5 +1,11 @@
 package MVC.View;
 
+import MVC.Controller.CoursController;
+import MVC.Controller.EnseignantController;
+import MVC.Controller.SalleController;
+import MVC.Model.ModelCoursDB;
+import MVC.Model.ModelEnseignantDB;
+import MVC.Model.ModelSalleDB;
 import metier.*;
 import metier.ListeEnseignantsHeures;
 
@@ -13,9 +19,6 @@ import static utilitaires.Utilitaire.*;
 
 public class ClasseViewConsole extends ClasseAbstractView {
     private Scanner sc = new Scanner(System.in);
-    SalleViewConsole sv;
-    CoursViewConsole cv;
-    EnseignantViewConsole ev;
 
     @Override
     public void affMsg(String msg) {
@@ -122,17 +125,25 @@ public class ClasseViewConsole extends ClasseAbstractView {
     }
 
     public void addCours(Classe cl) {
-        boolean ok = classeController.addCours(cl);
+        System.out.println("cours : ");
+        Cours c = cv.selectionner();
+        System.out.println("enseignant : ");
+        Enseignant ens = ev.selectionner();
+        System.out.println("salle : ");
+        Salle salle = sv.selectionner();
+        System.out.println("nb d'heures : ");
+        int nb = sc.nextInt();
+        boolean ok = classeController.addCours(cl,c,ens,nb,salle);
         if (ok) System.out.println("ajout réussi");
         else System.out.println("erreur lors de l'ajout");
     }
 
     public void modifSalleCours(Classe cl) {
         System.out.println("modification d'une salle d'un cours : ");
+        System.out.println("cours : ");
+        Cours c = choixCours(cl);
         System.out.println("salle : ");
         Salle sl = sv.selectionner();
-        System.out.println("cours : ");
-        Cours c = cv.selectionner();
         boolean ok = classeController.modifCoursSalle(cl, c, sl);
         if (ok) affMsg("mise à jour effectuée");
         else affMsg("mise à jour infructueuse");
@@ -141,7 +152,7 @@ public class ClasseViewConsole extends ClasseAbstractView {
     public void modifCoursHeures(Classe cl) {
         System.out.println("modification du nombre d'heures d'un cours : ");
         System.out.println("cours : ");
-        Cours c = cv.selectionner();
+        Cours c = choixCours(cl);
         System.out.println("nouveau nombre d'heures : ");
         int nb = sc.nextInt();
         boolean ok = classeController.modifCoursHeures(cl, c, nb);
@@ -152,7 +163,7 @@ public class ClasseViewConsole extends ClasseAbstractView {
     public void modifCoursEns(Classe cl) {
         System.out.println("modification de l'enseignant d'un cours : ");
         System.out.println("cours : ");
-        Cours c = cv.selectionner();
+        Cours c = choixCours(cl);
         System.out.println("nouvel enseignant : ");
         Enseignant ens = ev.selectionner();
         boolean ok = classeController.modifCoursEns(cl, c, ens);
@@ -162,10 +173,20 @@ public class ClasseViewConsole extends ClasseAbstractView {
 
     public void supprCours(Classe cl){
         System.out.println("suppression d'une ligne");
-        Cours cr = cv.selectionner();
-        boolean ok = classeController.supprCours(cl,cr);
+        System.out.println("cours : ");
+        Cours c = choixCours(cl);
+        boolean ok = classeController.supprCours(cl,c);
         if(ok) affMsg("ligne supprimée");
         else affMsg("ligne non supprimée");
+    }
+
+    public Cours choixCours(Classe cl){
+        System.out.println("cours de la classe : ");
+        List<Cours> co = classeController.getCoursClasse(cl);
+        affList(co);
+        int nl = choixListe(co);
+        Cours c = co.get(nl - 1);
+        return c;
     }
 
     @Override

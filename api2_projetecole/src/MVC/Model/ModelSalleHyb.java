@@ -72,7 +72,7 @@ public class ModelSalleHyb extends DAOSalle{
 
     @Override
     public Salle updateSalle(Salle salle) {
-        String query = "update API_SALLE set sigle =?,capacite=?where id_salle = ?";
+        String query = "update API_SALLE set sigle =?,capacite=? where id_salle = ?";
         try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
             pstm.setString(1, salle.getSigle());
             pstm.setInt(2, salle.getCapacite());

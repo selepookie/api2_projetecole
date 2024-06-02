@@ -111,8 +111,8 @@ public class SalleViewConsole extends SalleAbstractView{
     @Override
     public Salle selectionner() {
         update(salleController.getAll());
-        int nl = choixElt(lc);
-        Salle salle = lc.get(nl - 1);
-        return salle;
+        int nl = choixListe(lc);
+        Salle cl = lc.get(nl - 1);
+        return cl;
     }
 }

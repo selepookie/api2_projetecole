@@ -18,12 +18,11 @@ public abstract class EnseignantAbstractView  implements Observer {
     public abstract Enseignant selectionner();
 
     public abstract void menu();
-    public abstract void affList(List l);
+    public abstract void affList(List lc);
 
     @Override
     public void update(List lc) {
         this.lc = lc;
-        affListe(lc);
     }
 
 }
